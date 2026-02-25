@@ -1,0 +1,15 @@
+{
+  "name": "Personality Color Quiz",
+  "short_name": "Color Quiz",
+  "start_url": "personality-quiz.html",
+  "display": "standalone",
+  "background_color": "#1e1e2f",
+  "theme_color": "#1e1e2f",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

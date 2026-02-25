@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1e1e2f">
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
+</script>
+<meta charset="UTF-8">
+<title>Personality Quiz</title>
+<style>
+body{
+font-family:system-ui;
+background:linear-gradient(135deg,#1e1e2f,#2e2e42);
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+.card{
+background:#111827;
+width:92%;
+max-width:650px;
+padding:25px;
+border-radius:22px;
+box-shadow:0 20px 50px rgba(0,0,0,.6);
+animation:fade .4s ease;
+}
+@keyframes fade{from{opacity:0;transform:translateY(20px)}to{opacity:1}}
+h2,h3{margin-top:0}
+button{
+width:100%;
+margin:8px 0;
+padding:14px;
+border-radius:14px;
+border:none;
+font-size:16px;
+cursor:pointer;
+background:#2f2f44;
+color:white;
+transition:.2s;
+}
+button:hover{transform:scale(1.04);background:#3c3c5c}
+.progress{
+height:10px;
+background:#2a2a3c;
+border-radius:10px;
+overflow:hidden;
+margin-bottom:16px;
+}
+.bar{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#ff5252,#ffd452,#57ff9a,#52a8ff);
+transition:.4s;
+}
+.resultBar{
+height:12px;
+border-radius:10px;
+background:#333;
+overflow:hidden;
+margin:6px 0 14px;
+}
+.fill{
+height:100%;
+width:0%;
+transition:1s;
+}
+.red{background:#ff5252}
+.yellow{background:#ffd452}
+.green{background:#57ff9a}
+.blue{background:#52a8ff}
+small{opacity:.8}
+</style>
+</head>
+<body>
+
+<div class="card" id="app"></div>
+
+<script>
+
+const questions = [
+["When starting something new you usually…",
+["Jump in immediately","Talk it through excitedly","Make sure everyone’s comfortable","Plan carefully first"]],
+["In group situations you tend to…",
+["Take the lead","Bring energy and fun","Keep harmony","Organize details"]],
+["You feel most frustrated when people…",
+["Waste time","Kill enthusiasm","Create conflict","Are careless"]],
+["Your decisions are driven mainly by…",
+["Speed and results","Emotion and excitement","Peace and relationships","Logic and accuracy"]],
+["Under stress you usually…",
+["Push harder","Distract yourself","Withdraw quietly","Overthink everything"]],
+
+["You value most…",
+["Winning","Freedom","Connection","Correctness"]],
+["Your friends see you as…",
+["Strong-willed","Fun-loving","Supportive","Smart"]],
+["You prefer work that feels…",
+["Fast-paced","Creative","Meaningful","Structured"]],
+["Your natural pace is…",
+["Quick","Spontaneous","Steady","Careful"]],
+["Your biggest strength is…",
+["Action","Ideas","Loyalty","Logic"]],
+
+["When conflict appears you…",
+["Confront it","Lighten it","Avoid it","Analyze it"]],
+["You worry most about…",
+["Falling behind","Missing out","Hurting others","Making mistakes"]],
+["You trust more in…",
+["Instincts","Feelings","People","Facts"]],
+["Plans should be…",
+["Fast","Flexible","Comfortable","Detailed"]],
+["Your attention goes toward…",
+["Goals","Possibilities","People","Systems"]],
+
+["You feel best when…",
+["Achieving","Laughing","Belonging","Prepared"]],
+["You dislike…",
+["Delays","Boredom","Tension","Errors"]],
+["Your energy comes from…",
+["Action","Socializing","Stability","Order"]],
+["You choose based on…",
+["Efficiency","Emotion","Harmony","Logic"]],
+["Success means…",
+["Results","Experiences","Relationships","Precision"]]
+];
+
+const map=["red","yellow","green","blue"];
+let score={red:0,yellow:0,green:0,blue:0};
+let i=0;
+const app=document.getElementById("app");
+
+function shuffle(a){return a.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]);}
+
+function render(){
+let percent=Math.round(i/questions.length*100);
+let opts=shuffle(questions[i][1].map((t,j)=>({t,color:map[j]})));
+
+app.innerHTML=`
+<div class="progress"><div class="bar" style="width:${percent}%"></div></div>
+<h3>Question ${i+1} of 20</h3>
+<p>${questions[i][0]}</p>
+${opts.map(o=>`<button onclick="pick('${o.color}')">${o.t}</button>`).join("")}
+`;
+}
+
+function pick(c){score[c]++;i++; i<questions.length?render():results();}
+
+function results(){
+const t=questions.length;
+let vals={
+Red:Math.round(score.red/t*100),
+Yellow:Math.round(score.yellow/t*100),
+Green:Math.round(score.green/t*100),
+Blue:Math.round(score.blue/t*100)
+};
+
+let sorted=Object.entries(vals).map(([c,v])=>({c,v})).sort((a,b)=>b.v-a.v);
+
+let types=[sorted[0]];
+let label="Blend Type";
+
+if(sorted[0].v>=50){label="Core Type"; types=[sorted[0]];}
+else{
+types.push(sorted[1]);
+if(sorted[2].v>=20) types.push(sorted[2]);
+}
+
+app.innerHTML=`
+<h2>${label}</h2>
+<h3>${types.map(t=>t.c).join(" / ")}</h3>
+${Object.entries(vals).map(([n,v])=>bar(n,v)).join("")}
+<p>${explain(types.map(t=>t.c))}</p>
+<hr>
+<h3>❤️ Compatibility</h3>
+<p>${compatibility(types.map(t=>t.c))}</p>
+`;
+
+setTimeout(()=>document.querySelectorAll(".fill").forEach(f=>f.style.width=f.dataset.w+"%"),100);
+}
+
+function bar(n,v){
+const cls=n.toLowerCase();
+return `${n} ${v}%<div class="resultBar"><div class="fill ${cls}" data-w="${v}"></div></div>`;
+}
+
+function explain(a){
+const k=a.join("/");
+const m={
+"Red":"Driven, decisive, fast-moving leader focused on results.",
+"Yellow":"Energetic, social, creative, emotionally expressive.",
+"Green":"Calm, loyal, empathetic, relationship-focused.",
+"Blue":"Analytical, precise, structured, logical.",
+
+"Red/Yellow":"Charismatic achiever — bold, energetic, inspiring but impulsive.",
+"Red/Green":"Steady protector — strong, loyal, calm under pressure.",
+"Red/Blue":"Strategic powerhouse — driven with high standards.",
+
+"Yellow/Green":"Warm connector — caring, uplifting, emotionally aware.",
+"Yellow/Blue":"Creative thinker — imaginative yet logical.",
+"Green/Blue":"Reliable stabilizer — patient, organized, dependable.",
+
+"Red/Yellow/Blue":"Visionary achiever — bold ideas backed by logic.",
+"Green/Blue/Yellow":"Thoughtful empath — creative, caring, analytical.",
+"Red/Green/Yellow":"Motivating protector — energetic yet loyal.",
+"Red/Green/Blue":"Calm strategist — disciplined and effective."
+};
+return m[k]||"Balanced across multiple traits with high adaptability.";
+}
+
+function compatibility(arr){
+const main=arr[0];
+const best={
+Red:"Best with Green or Blue — they balance your drive with stability and logic.",
+Yellow:"Best with Blue or Green — structure or calm grounds your energy.",
+Green:"Best with Red or Yellow — they bring action and excitement.",
+Blue:"Best with Yellow or Red — energy or decisiveness balances logic."
+};
+
+const hard={
+Red:"Challenging with Red or Yellow due to control and impulsivity.",
+Yellow:"Challenging with Yellow or Red — chaos or clashes.",
+Green:"Challenging with very dominant Reds who rush you.",
+Blue:"Challenging with Blues — emotional distance."
+};
+
+return `
+<strong>Best matches:</strong> ${best[main]}<br><br>
+<strong>Growth challenges:</strong> ${hard[main]}
+`;
+}
+
+render();
+</script>
+</body>
+</html>
