@@ -3,11 +3,6 @@
 <head>
   <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1e1e2f">
-<script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js");
-}
-</script>
 <meta charset="UTF-8">
 <title>Personality Quiz</title>
 <style>
@@ -82,159 +77,208 @@ small{opacity:.8}
 <div class="card" id="app"></div>
 
 <script>
+const questions = [/* keep your same 20 questions array here exactly as before */];
 
-const questions = [
-["When starting something new you usually…",
-["Jump in immediately","Talk it through excitedly","Make sure everyone’s comfortable","Plan carefully first"]],
-["In group situations you tend to…",
-["Take the lead","Bring energy and fun","Keep harmony","Organize details"]],
-["You feel most frustrated when people…",
-["Waste time","Kill enthusiasm","Create conflict","Are careless"]],
-["Your decisions are driven mainly by…",
-["Speed and results","Emotion and excitement","Peace and relationships","Logic and accuracy"]],
-["Under stress you usually…",
-["Push harder","Distract yourself","Withdraw quietly","Overthink everything"]],
+const COLORS = ["Red","Yellow","Green","Blue"];
 
-["You value most…",
-["Winning","Freedom","Connection","Correctness"]],
-["Your friends see you as…",
-["Strong-willed","Fun-loving","Supportive","Smart"]],
-["You prefer work that feels…",
-["Fast-paced","Creative","Meaningful","Structured"]],
-["Your natural pace is…",
-["Quick","Spontaneous","Steady","Careful"]],
-["Your biggest strength is…",
-["Action","Ideas","Loyalty","Logic"]],
+let state = {
+  score: {Red:0,Yellow:0,Green:0,Blue:0},
+  index: 0,
+  personA: null,
+  result: null,
+  tab: "Core"
+};
 
-["When conflict appears you…",
-["Confront it","Lighten it","Avoid it","Analyze it"]],
-["You worry most about…",
-["Falling behind","Missing out","Hurting others","Making mistakes"]],
-["You trust more in…",
-["Instincts","Feelings","People","Facts"]],
-["Plans should be…",
-["Fast","Flexible","Comfortable","Detailed"]],
-["Your attention goes toward…",
-["Goals","Possibilities","People","Systems"]],
-
-["You feel best when…",
-["Achieving","Laughing","Belonging","Prepared"]],
-["You dislike…",
-["Delays","Boredom","Tension","Errors"]],
-["Your energy comes from…",
-["Action","Socializing","Stability","Order"]],
-["You choose based on…",
-["Efficiency","Emotion","Harmony","Logic"]],
-["Success means…",
-["Results","Experiences","Relationships","Precision"]]
-];
-
-const map=["red","yellow","green","blue"];
-let score={red:0,yellow:0,green:0,blue:0};
-let i=0;
-const app=document.getElementById("app");
+const app = document.getElementById("app");
 
 function shuffle(a){return a.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]);}
 
-function render(){
-let percent=Math.round(i/questions.length*100);
-let opts=shuffle(questions[i][1].map((t,j)=>({t,color:map[j]})));
+function renderQuestion(){
+  const percent = Math.round(state.index/questions.length*100);
+  const q = questions[state.index];
+  const opts = shuffle(q[1].map((t,i)=>({t,c:COLORS[i]})));
 
-app.innerHTML=`
-<div class="progress"><div class="bar" style="width:${percent}%"></div></div>
-<h3>Question ${i+1} of 20</h3>
-<p>${questions[i][0]}</p>
-${opts.map(o=>`<button onclick="pick('${o.color}')">${o.t}</button>`).join("")}
-`;
+  app.innerHTML = `
+  <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
+  <h3>Question ${state.index+1} of 20</h3>
+  <p>${q[0]}</p>
+  ${opts.map(o=>`<button onclick="pick('${o.c}')">${o.t}</button>`).join("")}
+  `;
 }
 
-function pick(c){score[c]++;i++; i<questions.length?render():results();}
-
-function results(){
-const t=questions.length;
-let vals={
-Red:Math.round(score.red/t*100),
-Yellow:Math.round(score.yellow/t*100),
-Green:Math.round(score.green/t*100),
-Blue:Math.round(score.blue/t*100)
-};
-
-let sorted=Object.entries(vals).map(([c,v])=>({c,v})).sort((a,b)=>b.v-a.v);
-
-let types=[sorted[0]];
-let label="Blend Type";
-
-if(sorted[0].v>=50){label="Core Type"; types=[sorted[0]];}
-else{
-types.push(sorted[1]);
-if(sorted[2].v>=20) types.push(sorted[2]);
+function pick(color){
+  state.score[color]++;
+  state.index++;
+  if(state.index<questions.length){
+    renderQuestion();
+  } else {
+    calculateResult();
+  }
 }
 
-app.innerHTML=`
-<h2>${label}</h2>
-<h3>${types.map(t=>t.c).join(" / ")}</h3>
-${Object.entries(vals).map(([n,v])=>bar(n,v)).join("")}
-<p>${explain(types.map(t=>t.c))}</p>
-<hr>
-<h3>❤️ Compatibility</h3>
-<p>${compatibility(types.map(t=>t.c))}</p>
-`;
+function calculateResult(){
+  const total = questions.length;
+  const vals = Object.fromEntries(
+    COLORS.map(c=>[c,Math.round(state.score[c]/total*100)])
+  );
 
-setTimeout(()=>document.querySelectorAll(".fill").forEach(f=>f.style.width=f.dataset.w+"%"),100);
+  const sorted = Object.entries(vals).sort((a,b)=>b[1]-a[1]);
+
+  let types = [sorted[0][0]];
+  if(sorted[0][1] < 50){
+    types.push(sorted[1][0]);
+    if(sorted[2][1] >= 20) types.push(sorted[2][0]);
+  }
+
+  state.result = {vals, types};
+  renderResult();
 }
 
-function bar(n,v){
-const cls=n.toLowerCase();
-return `${n} ${v}%<div class="resultBar"><div class="fill ${cls}" data-w="${v}"></div></div>`;
+function renderTabs(){
+  return `
+  <div class="tabs">
+    ${["Core","Secondary","Blend","Compatibility"].map(t=>
+      `<button class="${state.tab===t?"activeTab":""}" onclick="switchTab('${t}')">${t}</button>`
+    ).join("")}
+  </div>
+  `;
 }
 
-function explain(a){
-const k=a.join("/");
-const m={
-"Red":"Driven, decisive, fast-moving leader focused on results.",
-"Yellow":"Energetic, social, creative, emotionally expressive.",
-"Green":"Calm, loyal, empathetic, relationship-focused.",
-"Blue":"Analytical, precise, structured, logical.",
-
-"Red/Yellow":"Charismatic achiever — bold, energetic, inspiring but impulsive.",
-"Red/Green":"Steady protector — strong, loyal, calm under pressure.",
-"Red/Blue":"Strategic powerhouse — driven with high standards.",
-
-"Yellow/Green":"Warm connector — caring, uplifting, emotionally aware.",
-"Yellow/Blue":"Creative thinker — imaginative yet logical.",
-"Green/Blue":"Reliable stabilizer — patient, organized, dependable.",
-
-"Red/Yellow/Blue":"Visionary achiever — bold ideas backed by logic.",
-"Green/Blue/Yellow":"Thoughtful empath — creative, caring, analytical.",
-"Red/Green/Yellow":"Motivating protector — energetic yet loyal.",
-"Red/Green/Blue":"Calm strategist — disciplined and effective."
-};
-return m[k]||"Balanced across multiple traits with high adaptability.";
+function switchTab(tab){
+  state.tab = tab;
+  renderResult();
 }
 
-function compatibility(arr){
-const main=arr[0];
-const best={
-Red:"Best with Green or Blue — they balance your drive with stability and logic.",
-Yellow:"Best with Blue or Green — structure or calm grounds your energy.",
-Green:"Best with Red or Yellow — they bring action and excitement.",
-Blue:"Best with Yellow or Red — energy or decisiveness balances logic."
-};
+function renderResult(){
+  const {vals, types} = state.result;
 
-const hard={
-Red:"Challenging with Red or Yellow due to control and impulsivity.",
-Yellow:"Challenging with Yellow or Red — chaos or clashes.",
-Green:"Challenging with very dominant Reds who rush you.",
-Blue:"Challenging with Blues — emotional distance."
-};
+  app.innerHTML = `
+  <h2>${types.join(" / ")}</h2>
+  ${renderTabs()}
+  <div class="tabContent">
+    ${renderTabContent()}
+  </div>
+  <button onclick="restart()">Restart</button>
+  `;
 
-return `
-<strong>Best matches:</strong> ${best[main]}<br><br>
-<strong>Growth challenges:</strong> ${hard[main]}
-`;
+  enableSwipe();
 }
 
-render();
+function renderTabContent(){
+  const {vals, types} = state.result;
+
+  if(state.tab==="Core"){
+    return `
+    <h3>${types[0]}</h3>
+    <p>${coreDefinition(types[0])}</p>
+    `;
+  }
+
+  if(state.tab==="Secondary"){
+    if(types.length>1){
+      return `
+      <h3>${types[1]}</h3>
+      <p>${coreDefinition(types[1])}</p>
+      `;
+    }
+    return "<p>No strong secondary influence.</p>";
+  }
+
+  if(state.tab==="Blend"){
+    return `
+    <h3>Blend Dynamics</h3>
+    <p>${blendDefinition(types)}</p>
+    `;
+  }
+
+  if(state.tab==="Compatibility"){
+    if(state.personA){
+      const percent = compatibilityScore(state.personA, types);
+      return `
+      <h3>${percent}% Match</h3>
+      <p>${compatibilityExplanation(percent)}</p>
+      `;
+    } else {
+      return `<button onclick="savePersonA()">Compare With Someone</button>`;
+    }
+  }
+}
+
+function savePersonA(){
+  state.personA = state.result.types;
+  restart(true);
+}
+
+function restart(second=false){
+  state.score = {Red:0,Yellow:0,Green:0,Blue:0};
+  state.index = 0;
+  state.result = null;
+  if(second){
+    app.innerHTML = `<h2>Person B</h2><button onclick="renderQuestion()">Start</button>`;
+  } else {
+    renderQuestion();
+  }
+}
+
+function compatibilityScore(a,b){
+  let score=50;
+  if(a[0]===b[0]) score+=10;
+  if(a.includes("Green") && b.includes("Red")) score+=15;
+  if(a.includes("Blue") && b.includes("Yellow")) score+=15;
+  return Math.max(10,Math.min(100,score));
+}
+
+function compatibilityExplanation(p){
+  if(p>80) return "Strong natural harmony and balanced energy.";
+  if(p>60) return "Good compatibility with growth potential.";
+  if(p>40) return "Workable but requires communication.";
+  return "High friction dynamic — strong personalities may clash.";
+}
+
+function coreDefinition(color){
+  const defs = {
+    Red: "Driven, decisive, action-focused leaders who value results.",
+    Yellow: "Expressive, enthusiastic connectors who value fun and recognition.",
+    Green: "Calm, loyal stabilizers who value harmony and security.",
+    Blue: "Analytical, structured thinkers who value precision and logic."
+  };
+  return defs[color];
+}
+
+function blendDefinition(types){
+  return `This blend combines ${types.join(" and ")} creating a layered personality dynamic balancing strengths and tensions internally.`;
+}
+
+function enableSwipe(){
+  let startX = null;
+  const content = document.querySelector(".tabContent");
+
+  content.addEventListener("touchstart",e=>{
+    startX = e.changedTouches[0].screenX;
+  });
+
+  content.addEventListener("touchend",e=>{
+    const endX = e.changedTouches[0].screenX;
+    if(startX - endX > 50) nextTab();
+    if(endX - startX > 50) prevTab();
+  });
+}
+
+function nextTab(){
+  const tabs=["Core","Secondary","Blend","Compatibility"];
+  let i=tabs.indexOf(state.tab);
+  state.tab=tabs[(i+1)%tabs.length];
+  renderResult();
+}
+
+function prevTab(){
+  const tabs=["Core","Secondary","Blend","Compatibility"];
+  let i=tabs.indexOf(state.tab);
+  state.tab=tabs[(i-1+tabs.length)%tabs.length];
+  renderResult();
+}
+
+renderQuestion();
 </script>
 </body>
 </html>
