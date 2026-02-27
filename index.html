@@ -228,25 +228,169 @@ function compatibilityScore(a,b){
   return Math.max(10,Math.min(100,score));
 }
 
-function compatibilityExplanation(p){
-  if(p>80) return "Strong natural harmony and balanced energy.";
-  if(p>60) return "Good compatibility with growth potential.";
-  if(p>40) return "Workable but requires communication.";
-  return "High friction dynamic — strong personalities may clash.";
+function compatibilityExplanation(percent){
+
+if(percent > 85){
+return `
+<p>🔥 Strong emotional rhythm alignment.</p>
+<p>You naturally balance each other's weaknesses and amplify strengths.</p>
+<p>Conflict resolution style is likely complementary.</p>
+`;
+}
+
+if(percent > 65){
+return `
+<p>💛 Healthy dynamic with growth potential.</p>
+<p>Differences create balance rather than conflict.</p>
+<p>Requires awareness but offers stability.</p>
+`;
+}
+
+if(percent > 45){
+return `
+<p>⚖️ Moderate compatibility.</p>
+<p>Strong attraction but different pacing or emotional styles.</p>
+<p>Works with conscious communication.</p>
+`;
+}
+
+return `
+<p>⚡ High friction pairing.</p>
+<p>Both may feel misunderstood or rushed.</p>
+<p>Success depends heavily on maturity and compromise.</p>
+`;
 }
 
 function coreDefinition(color){
-  const defs = {
-    Red: "Driven, decisive, action-focused leaders who value results.",
-    Yellow: "Expressive, enthusiastic connectors who value fun and recognition.",
-    Green: "Calm, loyal stabilizers who value harmony and security.",
-    Blue: "Analytical, structured thinkers who value precision and logic."
-  };
-  return defs[color];
+const defs = {
+
+Red: `
+<h3>Core Motivation</h3>
+<p>Achievement, control, progress, and measurable results.</p>
+
+<h3>Strengths</h3>
+<p>Decisive, confident, competitive, action-oriented, resilient under pressure.</p>
+
+<h3>Under Stress</h3>
+<p>Can become impatient, blunt, controlling, or overly forceful.</p>
+
+<h3>Communication Style</h3>
+<p>Direct, efficient, to the point. Values clarity over emotion.</p>
+
+<h3>Leadership Style</h3>
+<p>Commanding, goal-focused, pushes teams toward results.</p>
+
+<h3>Relationship Needs</h3>
+<p>Respect, loyalty, and independence.</p>
+
+<h3>Growth Edge</h3>
+<p>Learning to slow down and consider emotional nuance.</p>
+`,
+
+Yellow: `
+<h3>Core Motivation</h3>
+<p>Connection, excitement, recognition, emotional expression.</p>
+
+<h3>Strengths</h3>
+<p>Charismatic, optimistic, persuasive, energetic, imaginative.</p>
+
+<h3>Under Stress</h3>
+<p>Can become scattered, overly emotional, or avoid responsibility.</p>
+
+<h3>Communication Style</h3>
+<p>Expressive, animated, storytelling-based.</p>
+
+<h3>Leadership Style</h3>
+<p>Inspirational and energizing.</p>
+
+<h3>Relationship Needs</h3>
+<p>Attention, affection, appreciation.</p>
+
+<h3>Growth Edge</h3>
+<p>Developing structure and follow-through.</p>
+`,
+
+Green: `
+<h3>Core Motivation</h3>
+<p>Harmony, stability, emotional safety.</p>
+
+<h3>Strengths</h3>
+<p>Patient, loyal, empathetic, dependable, calm under pressure.</p>
+
+<h3>Under Stress</h3>
+<p>Withdraws, avoids confrontation, suppresses emotions.</p>
+
+<h3>Communication Style</h3>
+<p>Gentle, supportive, careful with words.</p>
+
+<h3>Leadership Style</h3>
+<p>Servant-leader, supportive and steady.</p>
+
+<h3>Relationship Needs</h3>
+<p>Security, consistency, emotional reassurance.</p>
+
+<h3>Growth Edge</h3>
+<p>Learning to assert boundaries and embrace change.</p>
+`,
+
+Blue: `
+<h3>Core Motivation</h3>
+<p>Accuracy, logic, understanding, precision.</p>
+
+<h3>Strengths</h3>
+<p>Analytical, detail-oriented, strategic, disciplined.</p>
+
+<h3>Under Stress</h3>
+<p>Overthinks, becomes critical, emotionally distant.</p>
+
+<h3>Communication Style</h3>
+<p>Logical, structured, fact-based.</p>
+
+<h3>Leadership Style</h3>
+<p>Strategic planner, systems-focused.</p>
+
+<h3>Relationship Needs</h3>
+<p>Intellectual respect, trust, reliability.</p>
+
+<h3>Growth Edge</h3>
+<p>Allowing emotional vulnerability and flexibility.</p>
+`
+};
+
+return defs[color];
 }
 
 function blendDefinition(types){
-  return `This blend combines ${types.join(" and ")} creating a layered personality dynamic balancing strengths and tensions internally.`;
+
+if(types.length === 1){
+return "<p>Your personality is strongly centered, making your behavior consistent and predictable to others.</p>";
+}
+
+if(types.length === 2){
+return `
+<h3>Internal Dynamic</h3>
+<p>${types[0]} drives your primary decisions while ${types[1]} influences how you express and regulate that energy.</p>
+
+<h3>How You Appear to Others</h3>
+<p>You may seem layered — sometimes intense, sometimes balanced depending on environment.</p>
+
+<h3>Common Internal Conflict</h3>
+<p>At times you may feel pulled between speed and caution, emotion and logic, stability and growth.</p>
+`;
+}
+
+if(types.length === 3){
+return `
+<h3>Complex Blend</h3>
+<p>You have a highly adaptable personality with multiple strong influences.</p>
+
+<h3>Strength</h3>
+<p>You can shift behavior depending on context.</p>
+
+<h3>Challenge</h3>
+<p>Internal tension may occur when different motivations compete for control.</p>
+`;
+}
 }
 
 function enableSwipe(){
