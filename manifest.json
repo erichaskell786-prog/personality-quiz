@@ -1,13 +1,18 @@
 {
-  "name": "Personality Color Quiz",
-  "short_name": "Color Quiz",
-  "start_url": "personality-quiz.html",
+  "name": "Personality Quiz",
+  "short_name": "Personality",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#1e1e2f",
   "theme_color": "#1e1e2f",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
