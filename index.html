@@ -204,7 +204,7 @@ function renderQuestion(){
   app.innerHTML = `
   <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
   <h3>Question ${state.index+1} of 20</h3>
-  <p>${q[0]}</p>
+  <p class="question">${q[0]}</p>
   ${opts.map(o=>`<button onclick="pick('${o.c}')">${o.t}</button>`).join("")}
   `;
 }
@@ -310,6 +310,11 @@ function renderTabContent(){
 function savePersonA(){
   state.personA = state.result.types;
   restart(true);
+}
+
+.question {
+  font-size: 20px;
+  color: #ffffff;
 }
 
 function restart(second=false){
