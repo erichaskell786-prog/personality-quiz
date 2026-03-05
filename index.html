@@ -227,6 +227,28 @@ transition:1s;
 
 small{opacity:.8}
 
+.pageDots{
+display:flex;
+justify-content:center;
+gap:8px;
+margin:14px 0 6px;
+}
+
+.dot{
+width:8px;
+height:8px;
+border-radius:50%;
+background:#666;
+opacity:.5;
+transition:.3s;
+}
+
+.dot.active{
+opacity:1;
+background:white;
+transform:scale(1.2);
+}
+  
 @media (min-width:768px){
 .card{padding:40px}
 h2{font-size:34px}
@@ -408,12 +430,49 @@ ${renderCompatibility()}
 
 </div>
 
+</div class="pageDots" id="dots"></div>
+
 <button onclick="restart()">Restart</button>
 
 </div>
 `;
 
 setTimeout(animateBars,100);
+createDots();
+
+const container=document.querySelector(".swipeContainer");
+container.addEventListener("scroll",updateDots);
+
+}
+
+function createDots(){
+
+const container=document.querySelector(".swipeContainer");
+const dots=document.getElementById("dots");
+
+const pages=container.querySelectorAll(".page");
+
+dots.innerHTML="";
+
+pages.forEach((_,i)=>{
+dots.innerHTML+=`<div class="dot ${i===0?"active":""}"></div>`;
+});
+
+}
+
+function updateDots(){
+
+const container=document.querySelector(".swipeContainer");
+const dots=document.querySelectorAll(".dot");
+
+const pageWidth=container.clientWidth;
+const index=Math.round(container.scrollLeft/pageWidth);
+
+dots.forEach(d=>d.classList.remove("active"));
+
+if(dots[index]){
+dots[index].classList.add("active");
+}
 
 }
 
