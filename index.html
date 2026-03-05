@@ -33,6 +33,23 @@ display:flex;
 transition:transform .35s ease;
 }
 
+.swipeContainer{
+display:flex;
+overflow-x:auto;
+scroll-snap-type:x mandatory;
+scroll-behavior:smooth;
+}
+
+.page{
+min-width:100%;
+scroll-snap-align:start;
+padding-top:10px;
+}
+
+.swipeContainer::-webkit-scrollbar{
+display:none;
+}
+
 .tabContent{
 overflow:hidden;
 }
@@ -362,38 +379,6 @@ renderResult();
 
 }
 
-function renderTabs(){
-
-const {types} = state.result;
-
-let tabs = [];
-
-types.forEach((t,i)=>{
-tabs.push({
-name:t,
-key:"type"+i
-});
-});
-
-tabs.push({name:"Blend",key:"Blend"});
-tabs.push({name:"Compatibility",key:"Compatibility"});
-
-return `
-<div class="tabs">
-${tabs.map(tab =>
-`<button class="${state.tab===tab.key?"activeTab":""}"
-onclick="switchTab('${tab.key}')">${tab.name}</button>`
-).join("")}
-</div>
-`;
-
-}
-
-function switchTab(tab){
-state.tab=tab;
-renderResult();
-}
-
 function renderResult(){
 
 const {types}=state.result;
@@ -406,8 +391,23 @@ app.innerHTML = `
 ${renderScoreBars()}
 ${renderTabs()}
 
-<div class="tabContent">
-${renderTabContent()}
+<div class="swipeContainer">
+
+<div class="page">
+${renderScoreBars()}
+</div>
+
+${renderColorPages()}
+
+<div class="page">
+<h3>Blend Dynamics</h3>
+${blendDefinition(types)}
+</div>
+
+<div class="page">
+${renderCompatibility()}
+</div>
+
 </div>
 
 <button onclick="restart()">Restart</button>
@@ -449,6 +449,22 @@ ${Object.entries(vals).map(([color,value])=>`
 
 }
 
+function renderColorPages(){
+
+const {types}=state.result;
+
+return types.map(color => `
+<div class="page theme-${color.toLowerCase()}">
+
+<h3>${color}</h3>
+
+${coreDefinition(color)}
+
+</div>
+`).join("");
+
+}
+  
 function animateBars(){
 
 const bars=document.querySelectorAll(".fill");
@@ -511,6 +527,23 @@ pages.push(`
 `);
 
 return pages.join("");
+
+}
+
+function renderCompatibility(){
+
+if(state.personA){
+
+const percent=compatibilityScore(state.personA,state.result.types);
+
+return `
+<h3>${percent}% Match</h3>
+${compatibilityExplanation(percent)}
+`;
+
+}
+
+return `<button onclick="savePersonA()">Compare With Someone</button>`;
 
 }
 
@@ -691,30 +724,6 @@ const blends = {
 };
 
 return `<p>${blends[combo] || "Your personality combines multiple motivations, giving you adaptability across different environments."}</p>`;
-
-}
-  
-function nextTab(){
-
-const tabs=document.querySelectorAll(".tabs button");
-
-let i=[...tabs].findIndex(b=>b.classList.contains("activeTab"));
-
-i=(i+1)%tabs.length;
-
-tabs[i].click();
-
-}
-
-function prevTab(){
-
-const tabs=document.querySelectorAll(".tabs button");
-
-let i=[...tabs].findIndex(b=>b.classList.contains("activeTab"));
-
-i=(i-1+tabs.length)%tabs.length;
-
-tabs[i].click();
 
 }
   
