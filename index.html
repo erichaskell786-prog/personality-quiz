@@ -331,6 +331,7 @@ ${renderTabContent()}
 
 <button onclick="restart()">Restart</button>
 
+</div>
 `;
 
 enableSwipe();
@@ -374,7 +375,6 @@ return `<button onclick="savePersonA()">Compare With Someone</button>`;
 
 return "";
 }
-}
 
 function savePersonA(){
 state.personA=state.result.types;
@@ -390,6 +390,9 @@ state.result=null;
 if(second){
 app.innerHTML=`<h2>Person B</h2><button onclick="renderQuestion()">Start</button>`;
 }else{
+
+function enableSwipe(){ }
+  
 renderQuestion();
 }
 
