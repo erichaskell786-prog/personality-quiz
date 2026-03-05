@@ -113,15 +113,10 @@ transition:1s;
 .blue{background:#52a8ff}
 small{opacity:.8}
 
-const COLORS = ["Red","Yellow","Green","Blue"];
-
-let state = {
-  score: {Red:0,Yellow:0,Green:0,Blue:0},
-  index: 0,
-  personA: null,
-  result: null,
-  tab: "Core"
-};
+.question {
+  font-size: 20px;
+  color: #ffffff;
+}
 
 </style>
 </head>
@@ -312,11 +307,6 @@ function savePersonA(){
   restart(true);
 }
 
-.question {
-  font-size: 20px;
-  color: #ffffff;
-}
-
 function restart(second=false){
   state.score = {Red:0,Yellow:0,Green:0,Blue:0};
   state.index = 0;
@@ -327,6 +317,16 @@ function restart(second=false){
     renderQuestion();
   }
 }
+
+const COLORS = ["Red","Yellow","Green","Blue"];
+
+let state = {
+  score: {Red:0,Yellow:0,Green:0,Blue:0},
+  index: 0,
+  personA: null,
+  result: null,
+  tab: "Core"
+};
 
 function compatibilityScore(a,b){
   let score=50;
