@@ -31,12 +31,6 @@ p{
   font-size: 18px;
   line-height: 1.6;
 }
-
-.question {
-  font-size: 20px;
-  color: #ffffff;
-}
-
 @media (min-width: 768px){
   .card{
     padding: 40px;
@@ -127,7 +121,7 @@ small{opacity:.8}
 <script>
 const questions = [
 ["When starting something new you usually…",
-["Jump in immediately","Talk it through excitedly","Make sure everyone's comfortable","Plan carefully first"]],
+["Jump in immediately","Talk it through excitedly","Make sure everyone’s comfortable","Plan carefully first"]],
 
 ["In group situations you tend to…",
 ["Take the lead","Bring energy and fun","Keep harmony","Organize details"]],
@@ -187,7 +181,7 @@ const questions = [
 ["Results","Experiences","Relationships","Precision"]]
 ];
 
-const COLORS = ["Red","Yellow","Green","Blue"]; 
+const COLORS = ["Red","Yellow","Green","Blue"];
 
 let state = {
   score: {Red:0,Yellow:0,Green:0,Blue:0},
@@ -317,6 +311,11 @@ function savePersonA(){
   restart(true);
 }
 
+.question {
+  font-size: 20px;
+  color: #ffffff;
+}
+
 function restart(second=false){
   state.score = {Red:0,Yellow:0,Green:0,Blue:0};
   state.index = 0;
@@ -366,7 +365,8 @@ return `
 <p>⚡ High friction pairing.</p>
 <p>Both may feel misunderstood or rushed.</p>
 <p>Success depends heavily on maturity and compromise.</p>
-`;}
+`;
+}
 
 function coreDefinition(color){
 const defs = {
@@ -483,7 +483,8 @@ return `
 
 <h3>Common Internal Conflict</h3>
 <p>At times you may feel pulled between speed and caution, emotion and logic, stability and growth.</p>
-`;}
+`;
+}
 
 if(types.length === 3){
 return `
@@ -495,7 +496,9 @@ return `
 
 <h3>Challenge</h3>
 <p>Internal tension may occur when different motivations compete for control.</p>
-`;}}  
+`;
+}
+}
 
 function enableSwipe(){
   let startX = null;
@@ -529,7 +532,7 @@ function prevTab(){
 renderQuestion();
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js");
-} 
+}
 </script>
 </body>
 </html>
