@@ -23,6 +23,20 @@ align-items:center;
 min-height:100vh;
 }
 
+.swipePage{
+min-width:100%;
+padding:10px 0;
+}
+
+.swipeContainer{
+display:flex;
+transition:transform .35s ease;
+}
+
+.tabContent{
+overflow:hidden;
+}
+
 .tabs{
 display:flex;
 flex-wrap:wrap;
@@ -60,13 +74,33 @@ overflow:hidden;
 .fill{
 height:100%;
 width:0%;
-transition:width 1s ease;
+transition:width 1.2s ease, box-shadow .6s ease;
 }
 
 .fill.red{background:#ff5252}
 .fill.yellow{background:#ffd452}
 .fill.green{background:#57ff9a}
 .fill.blue{background:#52a8ff}
+
+.fill.red{
+background:#ff5252;
+box-shadow:0 0 12px rgba(255,82,82,.6);
+}
+
+.fill.yellow{
+background:#ffd452;
+box-shadow:0 0 12px rgba(255,212,82,.6);
+}
+
+.fill.green{
+background:#57ff9a;
+box-shadow:0 0 12px rgba(87,255,154,.6);
+}
+
+.fill.blue{
+background:#52a8ff;
+box-shadow:0 0 12px rgba(82,168,255,.6);
+}
   
 .card{
 background:#1e1e2f;
@@ -382,6 +416,7 @@ ${renderTabContent()}
 `;
 
 enableSwipe();
+setTimeout(animateBars,100);
 
 }
 
@@ -413,43 +448,70 @@ ${Object.entries(vals).map(([color,value])=>`
 `;
 
 }
+
+function animateBars(){
+
+const bars=document.querySelectorAll(".fill");
+
+bars.forEach(bar=>{
+
+const target=bar.style.width;
+
+bar.style.width="0%";
+
+setTimeout(()=>{
+bar.style.width=target;
+},100);
+
+});
+
+}
   
 function renderTabContent(){
 
-const {types} = state.result;
+const {types,vals}=state.result;
 
-if(state.tab.startsWith("type")){
-const index = Number(state.tab.replace("type",""));
-return `
-<h3>${types[index]}</h3>
-${coreDefinition(types[index])}
-`;
-}
+let pages=[];
 
-if(state.tab==="Blend"){
-return `
+/* PAGE 1 — Results Overview */
+
+pages.push(`
+<div class="swipePage">
+<h3>Your Personality Breakdown</h3>
+${renderScoreBars()}
+</div>
+`);
+
+/* PAGE 2+ — Personality Pages */
+
+types.forEach(color=>{
+pages.push(`
+<div class="swipePage theme-${color.toLowerCase()}">
+<h3>${color}</h3>
+${coreDefinition(color)}
+</div>
+`);
+});
+
+/* Blend Page */
+
+pages.push(`
+<div class="swipePage">
 <h3>Blend Dynamics</h3>
 ${blendDefinition(types)}
-`;
-}
+</div>
+`);
 
-if(state.tab==="Compatibility"){
+/* Compatibility Page */
 
-if(state.personA){
+pages.push(`
+<div class="swipePage">
+<button onclick="savePersonA()">Compare With Someone</button>
+</div>
+`);
 
-const percent = compatibilityScore(state.personA,types);
+return pages.join("");
 
-return `
-<h3>${percent}% Match</h3>
-${compatibilityExplanation(percent)}
-`;
-
-}
-
-return `<button onclick="savePersonA()">Compare With Someone</button>`;
-}
-
-return "";
 }
 
 function savePersonA(){
