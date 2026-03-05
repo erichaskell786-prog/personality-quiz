@@ -23,6 +23,11 @@ align-items:center;
 min-height:100vh;
 }
 
+.results{
+margin-top:10px;
+margin-bottom:10px;
+}
+
 .swipePage{
 min-width:100%;
 padding:10px 0;
@@ -40,14 +45,47 @@ scroll-snap-type:x mandatory;
 scroll-behavior:smooth;
 }
 
+.pageTitle{
+text-align:center;
+font-size:26px;
+font-weight:700;
+margin-bottom:8px;
+}
+
+.title-red{color:#ff6b6b;}
+.title-yellow{color:#ffd452;}
+.title-green{color:#57ff9a;}
+.title-blue{color:#52a8ff;}
+
 .page{
 min-width:100%;
 scroll-snap-align:start;
 padding-top:10px;
 }
 
-.swipeContainer::-webkit-scrollbar{
-display:none;
+.page{
+min-width:100%;
+scroll-snap-align:start;
+padding:10px 0;
+display:flex;
+flex-direction:column;
+gap:16px;
+}
+
+.swipeContainer{
+display:flex;
+overflow-x:auto;
+scroll-snap-type:x mandatory;
+scroll-behavior:smooth;
+-webkit-overflow-scrolling:touch;
+}
+
+.page{
+scroll-snap-align:center;
+}
+
+.swipeContainer{
+overscroll-behavior-x:contain;
 }
 
 .tabContent{
@@ -512,7 +550,7 @@ const {types}=state.result;
 return types.map(color => `
 <div class="page theme-${color.toLowerCase()}">
 
-<h3>${color}</h3>
+<div class="pageTitle title-${color.toLowerCase()}">${color}</div>
 
 ${coreDefinition(color)}
 
@@ -737,26 +775,35 @@ return defs[color];
 
 function blendDefinition(types){
 
-const combo = types.join("-");
+const [a,b,c] = types;
 
-const blends = {
+if(types.length === 1){
+return `
+<p>Your personality is strongly centered in <b>${a}</b>. This means your motivations, decisions, and reactions tend to follow a consistent internal pattern.</p>
+`;
+}
 
-"Red-Yellow": "A charismatic leader blend. You move fast and energize people around you.",
-"Red-Blue": "A strategic executor. You combine action with analysis.",
-"Red-Green": "A protector personality. You lead but care deeply about your people.",
+if(types.length === 2){
+return `
+<p>Your personality is primarily driven by <b>${a}</b> with strong influence from <b>${b}</b>.</p>
 
-"Yellow-Green": "A warm social connector. You prioritize harmony and relationships.",
-"Yellow-Blue": "A creative thinker. You balance imagination with intellect.",
+<p>This means your natural instincts from ${a} are often balanced by the perspective and behavioral style of ${b}. In some situations you may lead with the drive of ${a}, while in others the tendencies of ${b} shape how you respond.</p>
 
-"Green-Blue": "A stabilizing analyst. Calm, thoughtful, and dependable.",
+<p>This combination often creates a personality that can operate effectively in both structured and dynamic environments.</p>
+`;
+}
 
-"Red-Yellow-Green": "A powerful social leader — energetic, decisive, and people-aware.",
-"Red-Yellow-Blue": "An ambitious visionary — fast thinking, persuasive, and strategic.",
-"Red-Green-Blue": "A disciplined stabilizer — calm under pressure with strong control.",
-"Yellow-Green-Blue": "A thoughtful communicator — empathetic yet intellectually curious."
-};
+if(types.length === 3){
+return `
+<p>Your personality contains a layered blend of <b>${a}</b>, <b>${b}</b>, and <b>${c}</b>.</p>
 
-return `<p>${blends[combo] || "Your personality combines multiple motivations, giving you adaptability across different environments."}</p>`;
+<p>${a} tends to guide your core decision making, ${b} influences how you interact with people, and ${c} shapes how you internally process situations.</p>
+
+<p>This gives you a flexible personality structure where different traits may appear depending on the environment.</p>
+
+<p>People with this blend often appear complex to others because different parts of their personality emerge in different situations.</p>
+`;
+}
 
 }
   
