@@ -23,6 +23,51 @@ align-items:center;
 min-height:100vh;
 }
 
+.tabs{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+margin:16px 0;
+}
+
+.tabs button{
+flex:1;
+min-width:100px;
+}
+  
+.results{
+margin-top:20px;
+}
+
+.resultRow{
+margin:10px 0;
+}
+
+.resultLabel{
+display:flex;
+justify-content:space-between;
+font-size:16px;
+margin-bottom:6px;
+}
+
+.resultBar{
+height:14px;
+background:#2a2a3c;
+border-radius:10px;
+overflow:hidden;
+}
+
+.fill{
+height:100%;
+width:0%;
+transition:width 1s ease;
+}
+
+.fill.red{background:#ff5252}
+.fill.yellow{background:#ffd452}
+.fill.green{background:#57ff9a}
+.fill.blue{background:#52a8ff}
+  
 .card{
 background:#1e1e2f;
 width:100%;
@@ -323,6 +368,7 @@ const theme = types[0].toLowerCase();
 app.innerHTML = `
 <div class="card theme-${theme}">
 <h2>${types.join(" / ")}</h2>
+${renderScoreBars()}
 ${renderTabs()}
 
 <div class="tabContent">
@@ -338,6 +384,35 @@ enableSwipe();
 
 }
 
+function renderScoreBars(){
+
+const {vals} = state.result;
+
+return `
+<div class="results">
+
+${Object.entries(vals).map(([color,value])=>`
+
+<div class="resultRow">
+
+<div class="resultLabel">
+<span>${color}</span>
+<span>${value}%</span>
+</div>
+
+<div class="resultBar">
+<div class="fill ${color.toLowerCase()}" style="width:${value}%"></div>
+</div>
+
+</div>
+
+`).join("")}
+
+</div>
+`;
+
+}
+  
 function renderTabContent(){
 
 const {types} = state.result;
@@ -391,10 +466,26 @@ if(second){
 app.innerHTML=`<h2>Person B</h2><button onclick="renderQuestion()">Start</button>`;
 }else{
 
-function enableSwipe(){ }
-  
-renderQuestion();
-}
+function enableSwipe(){
+
+let startX=null;
+
+const content=document.querySelector(".tabContent");
+
+if(!content)return;
+
+content.addEventListener("touchstart",e=>{
+startX=e.changedTouches[0].screenX;
+});
+
+content.addEventListener("touchend",e=>{
+
+const endX=e.changedTouches[0].screenX;
+
+if(startX-endX>60)nextTab();
+if(endX-startX>60)prevTab();
+
+});
 
 }
 
@@ -537,19 +628,29 @@ return `<p>${blends[combo] || "Your personality combines multiple motivations, g
 }
   
 function nextTab(){
-const tabs=["Core","Secondary","Blend","Compatibility"];
-let i=tabs.indexOf(state.tab);
-state.tab=tabs[(i+1)%tabs.length];
-renderResult();
+
+const tabs=document.querySelectorAll(".tabs button");
+
+let i=[...tabs].findIndex(b=>b.classList.contains("activeTab"));
+
+i=(i+1)%tabs.length;
+
+tabs[i].click();
+
 }
 
 function prevTab(){
-const tabs=["Core","Secondary","Blend","Compatibility"];
-let i=tabs.indexOf(state.tab);
-state.tab=tabs[(i-1+tabs.length)%tabs.length];
-renderResult();
-}
 
+const tabs=document.querySelectorAll(".tabs button");
+
+let i=[...tabs].findIndex(b=>b.classList.contains("activeTab"));
+
+i=(i-1+tabs.length)%tabs.length;
+
+tabs[i].click();
+
+}
+  
 renderQuestion();
 
 if("serviceWorker" in navigator){
