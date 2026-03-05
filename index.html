@@ -33,6 +33,22 @@ box-shadow:0 20px 50px rgba(0,0,0,.6);
 animation:fade .4s ease;
 }
 
+.theme-red{
+background:linear-gradient(135deg,#2b1b1b,#3a2020);
+}
+
+.theme-yellow{
+background:linear-gradient(135deg,#3a3212,#4a3d12);
+}
+
+.theme-green{
+background:linear-gradient(135deg,#1b2e1f,#203c28);
+}
+
+.theme-blue{
+background:linear-gradient(135deg,#1b2333,#22304a);
+}
+
 @keyframes fade{
 from{opacity:0;transform:translateY(20px)}
 to{opacity:1}
@@ -259,23 +275,34 @@ if(sorted[2][1]>=20)types.push(sorted[2][0]);
 }
 
 state.result={vals,types};
-
+state.tab = "type0";
+  
 renderResult();
 
 }
 
 function renderTabs(){
 
-return`
+const {types} = state.result;
+
+let tabs = [];
+
+types.forEach((t,i)=>{
+tabs.push({
+name:t,
+key:"type"+i
+});
+});
+
+tabs.push({name:"Blend",key:"Blend"});
+tabs.push({name:"Compatibility",key:"Compatibility"});
+
+return `
 <div class="tabs">
-
-${["Core","Secondary","Blend","Compatibility"].map(t=>
-
-`<button class="${state.tab===t?"activeTab":""}"
-onclick="switchTab('${t}')">${t}</button>`
-
+${tabs.map(tab =>
+`<button class="${state.tab===tab.key?"activeTab":""}"
+onclick="switchTab('${tab.key}')">${tab.name}</button>`
 ).join("")}
-
 </div>
 `;
 
@@ -290,10 +317,11 @@ function renderResult(){
 
 const {types}=state.result;
 
-app.innerHTML=`
+const theme = types[0].toLowerCase();
 
+app.innerHTML = `
+<div class="card theme-${theme}">
 <h2>${types.join(" / ")}</h2>
-
 ${renderTabs()}
 
 <div class="tabContent">
@@ -310,41 +338,37 @@ enableSwipe();
 
 function renderTabContent(){
 
-const {types}=state.result;
+const {types} = state.result;
 
-if(state.tab==="Core"){
-return`<h3>${types[0]}</h3><p>${coreDefinition(types[0])}</p>`;
-}
-
-if(state.tab==="Secondary"){
-
-if(types.length>1){
-return`<h3>${types[1]}</h3><p>${coreDefinition(types[1])}</p>`;
-}
-
-return"<p>No strong secondary influence.</p>";
-
+if(state.tab.startsWith("type")){
+const index = Number(state.tab.replace("type",""));
+return `
+<h3>${types[index]}</h3>
+${coreDefinition(types[index])}
+`;
 }
 
 if(state.tab==="Blend"){
-return`<h3>Blend Dynamics</h3><p>${blendDefinition(types)}</p>`;
+return `
+<h3>Blend Dynamics</h3>
+${blendDefinition(types)}
+`;
 }
 
 if(state.tab==="Compatibility"){
 
 if(state.personA){
 
-const percent=compatibilityScore(state.personA,types);
+const percent = compatibilityScore(state.personA,types);
 
-return`
+return `
 <h3>${percent}% Match</h3>
-<p>${compatibilityExplanation(percent)}</p>
+${compatibilityExplanation(percent)}
 `;
 
 }
 
-return`<button onclick="savePersonA()">Compare With Someone</button>`;
-
+return `<button onclick="savePersonA()">Compare With Someone</button>`;
 }
 
 }
