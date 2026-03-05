@@ -6,24 +6,26 @@
     <title>Personality Quiz</title>
     <style>
         body {
+            background-color: #f0f0f0;
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
         }
         .question {
             font-size: 1.5em;
-            margin-bottom: 15px;
+            font-weight: bold;
         }
-        /* Add any additional styles here */
+        /* other styles */
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="question">
-            <p>Your question goes here?</p>
+    <div class="quiz">
+        <div class="question">What is your favorite color?</div>
+        <div class="answers">
+            <input type="radio" name="color" value="red"> Red<br>
+            <input type="radio" name="color" value="blue"> Blue<br>
+            <input type="radio" name="color" value="green"> Green<br>
+            <input type="radio" name="color" value="yellow"> Yellow<br>
         </div>
-        <!-- Other content can go here -->
     </div>
+    <!-- Add more questions here -->
 </body>
 </html>
