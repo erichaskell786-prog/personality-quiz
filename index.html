@@ -388,8 +388,6 @@ const theme = types[0].toLowerCase();
 app.innerHTML = `
 <div class="card theme-${theme}">
 <h2>${types.join(" / ")}</h2>
-${renderScoreBars()}
-${renderTabs()}
 
 <div class="swipeContainer">
 
@@ -415,7 +413,6 @@ ${renderCompatibility()}
 </div>
 `;
 
-enableSwipe();
 setTimeout(animateBars,100);
 
 }
@@ -563,29 +560,6 @@ app.innerHTML=`<h2>Person B</h2><button onclick="renderQuestion()">Start</button
 }else{
 renderQuestion();
 }
-
-}
-
-function enableSwipe(){
-
-let startX=null;
-
-const content=document.querySelector(".tabContent");
-
-if(!content)return;
-
-content.addEventListener("touchstart",e=>{
-startX=e.changedTouches[0].screenX;
-});
-
-content.addEventListener("touchend",e=>{
-
-const endX=e.changedTouches[0].screenX;
-
-if(startX-endX>60)nextTab();
-if(endX-startX>60)prevTab();
-
-});
 
 }
 
