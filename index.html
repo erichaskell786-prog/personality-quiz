@@ -16,7 +16,7 @@ font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
 background:linear-gradient(135deg,#1e1e2f,#2e2e42);
 color:white;
 margin:0;
-padding:20px;
+padding:20px 12px;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -31,10 +31,11 @@ padding:28px;
 border-radius:24px;
 box-shadow:0 20px 50px rgba(0,0,0,.6);
 animation:fade .4s ease;
+margin:0 auto;
 }
 
 .theme-red{
-background:linear-gradient(135deg,#2b1b1b,#3a2020);
+background:linear-gradient(135deg,#2b1f22,#5b2b2f);
 }
 
 .theme-yellow{
@@ -371,6 +372,8 @@ ${compatibilityExplanation(percent)}
 return `<button onclick="savePersonA()">Compare With Someone</button>`;
 }
 
+return "";
+}
 }
 
 function savePersonA(){
@@ -507,39 +510,29 @@ return defs[color];
 
 function blendDefinition(types){
 
-if(types.length===1){
-return"Your personality is strongly centered.";
-}
+const combo = types.join("-");
 
-if(types.length===2){
-return`${types[0]} drives your core behavior while ${types[1]} shapes how you express it.`;
-}
+const blends = {
 
-return"You have a flexible multi-layered personality blend.";
+"Red-Yellow": "A charismatic leader blend. You move fast and energize people around you.",
+"Red-Blue": "A strategic executor. You combine action with analysis.",
+"Red-Green": "A protector personality. You lead but care deeply about your people.",
 
-}
+"Yellow-Green": "A warm social connector. You prioritize harmony and relationships.",
+"Yellow-Blue": "A creative thinker. You balance imagination with intellect.",
 
-function enableSwipe(){
+"Green-Blue": "A stabilizing analyst. Calm, thoughtful, and dependable.",
 
-let startX=null;
+"Red-Yellow-Green": "A powerful social leader — energetic, decisive, and people-aware.",
+"Red-Yellow-Blue": "An ambitious visionary — fast thinking, persuasive, and strategic.",
+"Red-Green-Blue": "A disciplined stabilizer — calm under pressure with strong control.",
+"Yellow-Green-Blue": "A thoughtful communicator — empathetic yet intellectually curious."
+};
 
-const content=document.querySelector(".tabContent");
-
-content.addEventListener("touchstart",e=>{
-startX=e.changedTouches[0].screenX;
-});
-
-content.addEventListener("touchend",e=>{
-
-const endX=e.changedTouches[0].screenX;
-
-if(startX-endX>50)nextTab();
-if(endX-startX>50)prevTab();
-
-});
+return `<p>${blends[combo] || "Your personality combines multiple motivations, giving you adaptability across different environments."}</p>`;
 
 }
-
+  
 function nextTab(){
 const tabs=["Core","Secondary","Blend","Compatibility"];
 let i=tabs.indexOf(state.tab);
