@@ -187,6 +187,16 @@ const questions = [
 ["Results","Experiences","Relationships","Precision"]]
 ];
 
+const COLORS = ["Red","Yellow","Green","Blue"];
+
+let state = {
+  score: {Red:0,Yellow:0,Green:0,Blue:0},
+  index: 0,
+  personA: null,
+  result: null,
+  tab: "Core"
+};
+  
 const app = document.getElementById("app");
 
 function shuffle(a){return a.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]);}
