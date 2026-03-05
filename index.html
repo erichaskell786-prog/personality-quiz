@@ -112,6 +112,17 @@ transition:1s;
 .green{background:#57ff9a}
 .blue{background:#52a8ff}
 small{opacity:.8}
+
+const COLORS = ["Red","Yellow","Green","Blue"];
+
+let state = {
+  score: {Red:0,Yellow:0,Green:0,Blue:0},
+  index: 0,
+  personA: null,
+  result: null,
+  tab: "Core"
+};
+
 </style>
 </head>
 <body>
@@ -180,16 +191,6 @@ const questions = [
 ["Success means…",
 ["Results","Experiences","Relationships","Precision"]]
 ];
-
-const COLORS = ["Red","Yellow","Green","Blue"];
-
-let state = {
-  score: {Red:0,Yellow:0,Green:0,Blue:0},
-  index: 0,
-  personA: null,
-  result: null,
-  tab: "Core"
-};
 
 const app = document.getElementById("app");
 
