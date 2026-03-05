@@ -28,11 +28,6 @@ margin-top:10px;
 margin-bottom:10px;
 }
 
-.swipePage{
-min-width:100%;
-padding:10px 0;
-}
-
 .swipeContainer{
 display:flex;
 transition:transform .35s ease;
@@ -59,17 +54,12 @@ margin-bottom:8px;
 
 .page{
 min-width:100%;
-scroll-snap-align:start;
-padding-top:10px;
-}
-
-.page{
-min-width:100%;
-scroll-snap-align:start;
-padding:10px 0;
+scroll-snap-align:center;
 display:flex;
 flex-direction:column;
-gap:16px;
+justify-content:flex-start;
+gap:14px;
+padding:10px 0;
 }
 
 .swipeContainer{
@@ -78,14 +68,11 @@ overflow-x:auto;
 scroll-snap-type:x mandatory;
 scroll-behavior:smooth;
 -webkit-overflow-scrolling:touch;
+overscroll-behavior-x:contain;
 }
 
 .page{
 scroll-snap-align:center;
-}
-
-.swipeContainer{
-overscroll-behavior-x:contain;
 }
 
 .tabContent{
