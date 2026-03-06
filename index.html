@@ -1097,7 +1097,7 @@ const percent=compatibilityScore(state.personA,state.result.types);
 return `
 <h3>${percent}% Match</h3>
 
-${renderDualRadar()}
+${state.personA ? renderDualRadar() : ""}
 
 ${compatibilityExplanation(percent)}
 
