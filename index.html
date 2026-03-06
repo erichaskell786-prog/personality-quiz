@@ -23,10 +23,6 @@ align-items:center;
 min-height:100vh;
 }
 
-.results{
-margin:6px 0 12px 0;
-}
-
 .pageTitle{
 text-align:center;
 font-size:26px;
@@ -540,6 +536,7 @@ showAnalysisScreen();
 setTimeout(()=>{
 calculateResult();
 },1700);
+}
 
 }
 
@@ -624,6 +621,9 @@ const aura=`<div class="aura aura-${theme}"></div>`;
 
 app.innerHTML = `
 <div class="card theme-${theme}">
+
+${aura}
+
 <h2>${types.join(" / ")}</h2>
 <h3 style="text-align:center;opacity:.85;margin-top:-6px;">
 ${personalityTitle(types)}
@@ -884,8 +884,6 @@ return pages.join("");
 
 }
 
-<button onclick="shareResult()">Share Your Result Card</button>
-
 function renderCompatibility(){
 
 if(state.personA){
@@ -902,12 +900,9 @@ ${compatibilityExplanation(percent)}
 
 return `
 <button onclick="savePersonA()">Compare With Someone</button>
+<button onclick="shareResult()">Share Result Card</button>
 <button onclick="restart()">Restart</button>
 `;
-
-}
-
-return `<button onclick="savePersonA()">Compare With Someone</button>`;
 
 }
 
