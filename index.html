@@ -1112,12 +1112,15 @@ return `
 <canvas id="compatChart" style="margin:20px 0;"></canvas>
 
 ${compatibilityExplanation(percent)}
+
+<button onclick="shareResult()">Share Result Card</button>
+<button onclick="restart()">Restart</button>
 `;
 
-${state.personA ? renderDualRadar() : ""}
+}
 
-${compatibilityExplanation(percent)}
-
+return `
+<button onclick="savePersonA()">Compare With Someone</button>
 <button onclick="shareResult()">Share Result Card</button>
 <button onclick="restart()">Restart</button>
 `;
