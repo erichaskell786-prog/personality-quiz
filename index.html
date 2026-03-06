@@ -1039,18 +1039,112 @@ ctx.fillRect(0,0,800,800);
 ctx.fillStyle="white";
 ctx.font="bold 48px system-ui";
 ctx.textAlign="center";
-ctx.fillText("Personality Result",400,120);
+ctx.fillText("Personality Result",400,100);
 
-/* main result */
+/* result */
 
-ctx.font="bold 42px system-ui";
-ctx.fillText(title,400,240);
+ctx.font="bold 40px system-ui";
+ctx.fillText(title,400,180);
 
-/* subtitle */
+ctx.font="26px system-ui";
+ctx.fillStyle="#aab4ff";
+ctx.fillText(subtitle,400,230);
 
-ctx.font="28px system-ui";
-ctx.fillStyle="#bbbbff";
-ctx.fillText(subtitle,400,300);
+/* radar chart center */
+
+const cx=400;
+const cy=380;
+const maxR=120;
+
+/* radar grid */
+
+ctx.strokeStyle="rgba(255,255,255,.2)";
+ctx.lineWidth=1;
+
+[40,80,120].forEach(r=>{
+ctx.beginPath();
+ctx.arc(cx,cy,r,0,Math.PI*2);
+ctx.stroke();
+});
+
+/* axis lines */
+
+for(let i=0;i<4;i++){
+
+const angle=(Math.PI/2)*i-Math.PI/2;
+
+ctx.beginPath();
+ctx.moveTo(cx,cy);
+ctx.lineTo(
+cx+Math.cos(angle)*maxR,
+cy+Math.sin(angle)*maxR
+);
+ctx.stroke();
+
+}
+
+/* calculate points */
+
+const values=[
+vals.Red,
+vals.Yellow,
+vals.Green,
+vals.Blue
+];
+
+const angles=[
+-Math.PI/2,
+0,
+Math.PI/2,
+Math.PI
+];
+
+const points=[];
+
+values.forEach((v,i)=>{
+
+const r=maxR*(v/100);
+
+points.push({
+x:cx+Math.cos(angles[i])*r,
+y:cy+Math.sin(angles[i])*r
+});
+
+});
+
+/* draw polygon */
+
+ctx.fillStyle="rgba(82,168,255,.35)";
+ctx.strokeStyle="#52a8ff";
+ctx.lineWidth=3;
+
+ctx.beginPath();
+
+points.forEach((p,i)=>{
+if(i===0) ctx.moveTo(p.x,p.y);
+else ctx.lineTo(p.x,p.y);
+});
+
+ctx.closePath();
+ctx.fill();
+ctx.stroke();
+
+/* labels */
+
+const labels=["Red","Yellow","Green","Blue"];
+
+labels.forEach((label,i)=>{
+
+ctx.fillStyle="white";
+ctx.font="18px system-ui";
+
+ctx.fillText(
+label,
+cx+Math.cos(angles[i])*(maxR+30)-20,
+cy+Math.sin(angles[i])*(maxR+30)
+);
+
+});
 
 /* bars */
 
@@ -1061,18 +1155,18 @@ Green:"#57ff9a",
 Blue:"#52a8ff"
 };
 
-let y=420;
+let y=600;
 
 Object.entries(vals).forEach(([color,value])=>{
 
 ctx.fillStyle="white";
-ctx.font="24px system-ui";
-ctx.fillText(`${color} ${value}%`,400,y);
+ctx.font="22px system-ui";
+ctx.fillText(`${color} ${value}%`,300,y);
 
 ctx.fillStyle=colors[color];
-ctx.fillRect(200,y+20,value*4,18);
+ctx.fillRect(420,y-16,value*2.5,18);
 
-y+=80;
+y+=50;
 
 });
 
