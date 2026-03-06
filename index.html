@@ -389,6 +389,41 @@ h2{font-size:34px}
 p{font-size:20px}
 }
 
+.intro{
+position:fixed;
+left:0;
+top:0;
+width:100%;
+height:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#1e1e2f;
+z-index:1000;
+overflow:hidden;
+}
+
+.introColor{
+position:absolute;
+width:420px;
+height:420px;
+border-radius:50%;
+filter:blur(120px);
+opacity:.35;
+animation:introPulse 3s ease infinite;
+}
+
+.introRed{background:#ff5252;left:20%;}
+.introYellow{background:#ffd452;right:20%;}
+.introGreen{background:#57ff9a;bottom:20%;}
+.introBlue{background:#52a8ff;top:20%;}
+
+@keyframes introPulse{
+0%{transform:scale(.8);opacity:.2}
+50%{transform:scale(1.2);opacity:.45}
+100%{transform:scale(.8);opacity:.2}
+}
+
 .aura{
 position:absolute;
 width:420px;
@@ -416,6 +451,8 @@ animation:auraFade 1.2s ease forwards;
 </style>
 </head>
 
+<audio id="revealSound" src="reveal.mp3" preload="auto"></audio>
+  
 <body>
 
 <div class="card" id="app"></div>
@@ -502,6 +539,31 @@ return a.map(v=>[Math.random(),v])
 .map(v=>v[1]);
 }
 
+function showIntro(){
+
+app.innerHTML=`
+
+<div class="intro">
+
+<div class="introColor introRed"></div>
+<div class="introColor introYellow"></div>
+<div class="introColor introGreen"></div>
+<div class="introColor introBlue"></div>
+
+<h1 style="position:relative;z-index:2;">
+Personality Color Test
+</h1>
+
+</div>
+
+`;
+
+setTimeout(()=>{
+renderHome();
+},2200);
+
+}
+  
 function renderHome(){
 
 app.innerHTML = `
@@ -710,6 +772,7 @@ ${renderCompatibility()}
 
 setTimeout(animateBars,100);
 setTimeout(animateRadar,120);
+setTimeout(playRevealEffect,200);
 createDots();
 
 const container=document.querySelector(".swipeContainer");
@@ -756,6 +819,77 @@ stroke-width="2"/>
 
 }
 
+function renderDualRadar(){
+
+const a = state.personAvals;
+const b = state.result.vals;
+
+return `
+<div class="radarWrap">
+<div class="radar">
+
+<div class="radarRing ring1"></div>
+<div class="radarRing ring2"></div>
+<div class="radarRing ring3"></div>
+
+<svg class="radarShape">
+
+<polygon id="radarPolyA"
+fill="rgba(82,168,255,.25)"
+stroke="#52a8ff"
+stroke-width="3"/>
+
+<polygon id="radarPolyB"
+fill="rgba(255,212,82,.25)"
+stroke="#ffd452"
+stroke-width="3"/>
+
+</svg>
+
+</div>
+</div>
+`;
+}
+
+function animateDualRadar(){
+
+const A = state.personAvals;
+const B = state.result.vals;
+
+const angles=[270,0,90,180];
+
+const pointsA=[];
+const pointsB=[];
+
+["Red","Yellow","Green","Blue"].forEach((c,i)=>{
+
+pointsA.push(placeDotValue(A[c],angles[i]));
+pointsB.push(placeDotValue(B[c],angles[i]));
+
+});
+
+document
+.getElementById("radarPolyA")
+.setAttribute("points",pointsA.join(" "));
+
+document
+.getElementById("radarPolyB")
+.setAttribute("points",pointsB.join(" "));
+
+}
+
+function placeDotValue(value,angle){
+
+const r=90*(value/100);
+const rad=angle*Math.PI/180;
+
+const x=100+Math.cos(rad)*r;
+const y=100+Math.sin(rad)*r;
+
+return `${x},${y}`;
+
+}
+
 function animateRadar(){
 
 const {vals}=state.result;
@@ -768,6 +902,21 @@ points.push(placeDot("dotGreen",vals.Green,90));
 points.push(placeDot("dotBlue",vals.Blue,180));
 
 drawPolygon(points);
+
+}
+
+function playRevealEffect(){
+
+if(navigator.vibrate){
+navigator.vibrate(40);
+}
+
+const sound=document.getElementById("revealSound");
+
+if(sound){
+sound.currentTime=0;
+sound.play().catch(()=>{});
+}
 
 }
 
@@ -943,10 +1092,15 @@ function renderCompatibility(){
 if(state.personA){
 
 const percent=compatibilityScore(state.personA,state.result.types);
-  
+
 return `
 <h3>${percent}% Match</h3>
+
+${renderDualRadar()}
+
 ${compatibilityExplanation(percent)}
+
+<button onclick="shareResult()">Share Result Card</button>
 <button onclick="restart()">Restart</button>
 `;
 
@@ -956,13 +1110,18 @@ return `
 <button onclick="savePersonA()">Compare With Someone</button>
 <button onclick="shareResult()">Share Result Card</button>
 <button onclick="restart()">Restart</button>
+setTimeout(animateDualRadar,120);
 `;
 
 }
 
 function savePersonA(){
+
 state.personA=state.result.types;
+state.personAvals=state.result.vals;
+
 restart(true);
+
 }
 
 function restart(second=false){
@@ -1339,7 +1498,7 @@ window.open(url);
 
 <canvas id="shareCanvas" width="800" height="800" style="display:none"></canvas>
   
-renderHome();
+showIntro();
 
 if("serviceWorker" in navigator){
 navigator.serviceWorker.register("sw.js");
