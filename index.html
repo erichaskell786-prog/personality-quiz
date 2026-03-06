@@ -27,18 +27,6 @@ min-height:100vh;
 margin:6px 0 12px 0;
 }
 
-.swipeContainer{
-display:flex;
-transition:transform .35s ease;
-}
-
-.swipeContainer{
-display:flex;
-overflow-x:auto;
-scroll-snap-type:x mandatory;
-scroll-behavior:smooth;
-}
-
 .pageTitle{
 text-align:center;
 font-size:26px;
@@ -514,7 +502,7 @@ ${renderCompatibility()}
 
 </div>
 
-</div class="pageDots" id="dots"></div>
+<div class="pageDots" id="dots"></div>
 
 </div>
 `;
@@ -745,11 +733,6 @@ return pages.join("");
 
 function renderCompatibility(){
 
-<div class="page">
-${renderCompatibility()}
-<button onclick="restart()">Restart</button>
-</div>
-  
 if(state.personA){
 
 const percent=compatibilityScore(state.personA,state.result.types);
@@ -757,6 +740,14 @@ const percent=compatibilityScore(state.personA,state.result.types);
 return `
 <h3>${percent}% Match</h3>
 ${compatibilityExplanation(percent)}
+<button onclick="restart()">Restart</button>
+`;
+
+}
+
+return `
+<button onclick="savePersonA()">Compare With Someone</button>
+<button onclick="restart()">Restart</button>
 `;
 
 }
