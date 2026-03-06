@@ -276,25 +276,46 @@ transform:scale(1.2);
 display:flex;
 justify-content:center;
 align-items:center;
-margin:10px 0 20px 0;
+margin:12px 0 18px 0;
 }
 
 .radar{
 position:relative;
-width:180px;
-height:180px;
+width:200px;
+height:200px;
 border-radius:50%;
-border:1px solid rgba(255,255,255,.2);
 }
+
+.radarRing{
+position:absolute;
+border:1px solid rgba(255,255,255,.15);
+border-radius:50%;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+}
+
+.ring1{width:200px;height:200px;}
+.ring2{width:140px;height:140px;}
+.ring3{width:80px;height:80px;}
 
 .radarLine{
 position:absolute;
 left:50%;
 top:50%;
 width:2px;
-height:90px;
+height:100px;
 background:rgba(255,255,255,.2);
 transform-origin:bottom center;
+}
+
+.radarShape{
+position:absolute;
+left:0;
+top:0;
+width:100%;
+height:100%;
+pointer-events:none;
 }
 
 .radarDot{
@@ -303,6 +324,7 @@ width:10px;
 height:10px;
 border-radius:50%;
 transform:translate(-50%,-50%);
+box-shadow:0 0 8px rgba(255,255,255,.4);
 }
 
 .dot-red{background:#ff5252;}
@@ -507,17 +529,27 @@ container.addEventListener("scroll",updateDots);
 }
 
 function renderRadar(){
-
-const {vals}=state.result;
+function renderRadar(){
 
 return `
 <div class="radarWrap">
 <div class="radar">
 
+<div class="radarRing ring1"></div>
+<div class="radarRing ring2"></div>
+<div class="radarRing ring3"></div>
+
 <div class="radarLine" style="transform:rotate(0deg)"></div>
 <div class="radarLine" style="transform:rotate(90deg)"></div>
 <div class="radarLine" style="transform:rotate(180deg)"></div>
 <div class="radarLine" style="transform:rotate(270deg)"></div>
+
+<svg class="radarShape">
+<polygon id="radarPoly"
+fill="rgba(82,168,255,.25)"
+stroke="#52a8ff"
+stroke-width="2"/>
+</svg>
 
 <div class="radarDot dot-red" id="dotRed"></div>
 <div class="radarDot dot-yellow" id="dotYellow"></div>
@@ -534,26 +566,40 @@ function animateRadar(){
 
 const {vals}=state.result;
 
-placeDot("dotRed",vals.Red,270);
-placeDot("dotYellow",vals.Yellow,0);
-placeDot("dotGreen",vals.Green,90);
-placeDot("dotBlue",vals.Blue,180);
+const points=[];
+
+points.push(placeDot("dotRed",vals.Red,270));
+points.push(placeDot("dotYellow",vals.Yellow,0));
+points.push(placeDot("dotGreen",vals.Green,90));
+points.push(placeDot("dotBlue",vals.Blue,180));
+
+drawPolygon(points);
 
 }
 
 function placeDot(id,value,angle){
 
-const r=80*(value/100);
+const r=90*(value/100);
 
 const rad=angle*Math.PI/180;
 
-const x=90+Math.cos(rad)*r;
-const y=90+Math.sin(rad)*r;
+const x=100+Math.cos(rad)*r;
+const y=100+Math.sin(rad)*r;
 
 const dot=document.getElementById(id);
 
 dot.style.left=x+"px";
 dot.style.top=y+"px";
+
+return `${x},${y}`;
+
+}
+
+function drawPolygon(points){
+
+const poly=document.getElementById("radarPoly");
+
+poly.setAttribute("points",points.join(" "));
 
 }
 
