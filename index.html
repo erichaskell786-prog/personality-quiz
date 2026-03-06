@@ -502,6 +502,60 @@ return a.map(v=>[Math.random(),v])
 .map(v=>v[1]);
 }
 
+function renderHome(){
+
+app.innerHTML = `
+
+<div style="text-align:center;padding:30px 10px">
+
+<div style="
+font-size:42px;
+font-weight:700;
+margin-bottom:10px;
+">
+Personality Color Test
+</div>
+
+<p style="
+opacity:.8;
+max-width:420px;
+margin:auto;
+margin-bottom:28px;
+">
+Discover how you communicate, lead, and think based on behavioral patterns.
+</p>
+
+<div style="
+font-size:80px;
+margin-bottom:20px;
+<img src="icon-192.png" style="width:90px;margin:20px 0;">
+
+<button onclick="startQuiz()" style="
+font-size:20px;
+padding:20px;
+margin-top:10px;
+">
+Start Personality Test
+</button>
+
+<p style="
+opacity:.6;
+font-size:14px;
+margin-top:20px;
+">
+20 questions • ~2 minutes
+</p>
+
+</div>
+
+`;
+
+}
+
+function startQuiz(){
+renderQuestion();
+}
+
 function renderQuestion(){
 
 const percent=Math.round(state.index/questions.length*100);
@@ -1285,7 +1339,7 @@ window.open(url);
 
 <canvas id="shareCanvas" width="800" height="800" style="display:none"></canvas>
   
-renderQuestion();
+renderHome();
 
 if("serviceWorker" in navigator){
 navigator.serviceWorker.register("sw.js");
