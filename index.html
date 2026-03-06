@@ -271,6 +271,44 @@ opacity:1;
 background:white;
 transform:scale(1.2);
 }
+
+.radarWrap{
+display:flex;
+justify-content:center;
+align-items:center;
+margin:10px 0 20px 0;
+}
+
+.radar{
+position:relative;
+width:180px;
+height:180px;
+border-radius:50%;
+border:1px solid rgba(255,255,255,.2);
+}
+
+.radarLine{
+position:absolute;
+left:50%;
+top:50%;
+width:2px;
+height:90px;
+background:rgba(255,255,255,.2);
+transform-origin:bottom center;
+}
+
+.radarDot{
+position:absolute;
+width:10px;
+height:10px;
+border-radius:50%;
+transform:translate(-50%,-50%);
+}
+
+.dot-red{background:#ff5252;}
+.dot-yellow{background:#ffd452;}
+.dot-green{background:#57ff9a;}
+.dot-blue{background:#52a8ff;}
   
 @media (min-width:768px){
 .card{padding:40px}
@@ -437,6 +475,7 @@ app.innerHTML = `
 <div class="swipeContainer">
 
 <div class="page">
+${renderRadar()}
 ${renderScoreBars()}
 </div>
 
@@ -459,10 +498,62 @@ ${renderCompatibility()}
 `;
 
 setTimeout(animateBars,100);
+setTimeout(animateRadar,120);
 createDots();
 
 const container=document.querySelector(".swipeContainer");
 container.addEventListener("scroll",updateDots);
+
+}
+
+function renderRadar(){
+
+const {vals}=state.result;
+
+return `
+<div class="radarWrap">
+<div class="radar">
+
+<div class="radarLine" style="transform:rotate(0deg)"></div>
+<div class="radarLine" style="transform:rotate(90deg)"></div>
+<div class="radarLine" style="transform:rotate(180deg)"></div>
+<div class="radarLine" style="transform:rotate(270deg)"></div>
+
+<div class="radarDot dot-red" id="dotRed"></div>
+<div class="radarDot dot-yellow" id="dotYellow"></div>
+<div class="radarDot dot-green" id="dotGreen"></div>
+<div class="radarDot dot-blue" id="dotBlue"></div>
+
+</div>
+</div>
+`;
+
+}
+
+function animateRadar(){
+
+const {vals}=state.result;
+
+placeDot("dotRed",vals.Red,270);
+placeDot("dotYellow",vals.Yellow,0);
+placeDot("dotGreen",vals.Green,90);
+placeDot("dotBlue",vals.Blue,180);
+
+}
+
+function placeDot(id,value,angle){
+
+const r=80*(value/100);
+
+const rad=angle*Math.PI/180;
+
+const x=90+Math.cos(rad)*r;
+const y=90+Math.sin(rad)*r;
+
+const dot=document.getElementById(id);
+
+dot.style.left=x+"px";
+dot.style.top=y+"px";
 
 }
 
