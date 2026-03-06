@@ -757,6 +757,7 @@ ${renderColorPages()}
 <div class="page">
 <h3>Blend Dynamics</h3>
 ${blendDefinition(types)}
+${personalityInsights(types)}
 </div>
 
 <div class="page">
@@ -1282,6 +1283,82 @@ return `
 <p>People with this blend often appear complex to others because different parts of their personality emerge in different situations.</p>
 `;
 }
+
+}
+
+function personalityInsights(types){
+
+const [a,b,c] = types;
+
+const data={
+
+Red:{
+lead:"You naturally take charge and move situations toward results.",
+communication:"You communicate directly and expect efficiency from others.",
+motivation:"Achievement, progress, and visible results.",
+stress:"Slow decisions, hesitation, or lack of progress.",
+environment:"Fast-moving environments where initiative is rewarded."
+},
+
+Yellow:{
+lead:"You influence through enthusiasm and inspiration.",
+communication:"Expressive and energetic communication style.",
+motivation:"Recognition, excitement, and meaningful experiences.",
+stress:"Rigid systems or environments that limit creativity.",
+environment:"Collaborative spaces where ideas and energy are valued."
+},
+
+Green:{
+lead:"You lead through support and emotional stability.",
+communication:"Calm, empathetic, and relationship-focused.",
+motivation:"Harmony, loyalty, and long-term stability.",
+stress:"Conflict-heavy or highly competitive situations.",
+environment:"Stable teams where trust and cooperation are strong."
+},
+
+Blue:{
+lead:"You lead through analysis, planning, and strategic thinking.",
+communication:"Logical, structured, and detail-oriented.",
+motivation:"Accuracy, competence, and understanding.",
+stress:"Unclear expectations or chaotic environments.",
+environment:"Organized systems where precision matters."
+}
+
+};
+
+function combine(field){
+
+let text=data[a][field];
+
+if(b){
+text += " Your secondary "+b+" influence adds another layer to how this appears in practice.";
+}
+
+if(c){
+text += " The presence of "+c+" can also surface depending on the situation.";
+}
+
+return `<p>${text}</p>`;
+}
+
+return `
+
+<h3>How You Lead</h3>
+${combine("lead")}
+
+<h3>Communication Style</h3>
+${combine("communication")}
+
+<h3>Motivation</h3>
+${combine("motivation")}
+
+<h3>Stress Triggers</h3>
+${combine("stress")}
+
+<h3>Ideal Environment</h3>
+${combine("environment")}
+
+`;
 
 }
 
