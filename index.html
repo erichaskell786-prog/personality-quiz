@@ -451,13 +451,13 @@ animation:auraFade 1.2s ease forwards;
 </style>
 </head>
 
-<audio id="revealSound" src="reveal.mp3" preload="auto"></audio>
-  
 <body>
+
+<audio id="revealSound" src="reveal.mp3" preload="auto"></audio>
 
 <div class="card" id="app"></div>
 <canvas id="shareCanvas" width="800" height="800" style="display:none"></canvas>
-
+  
 <script>
 
 const questions = [
@@ -774,7 +774,10 @@ setTimeout(animateBars,100);
 setTimeout(animateRadar,120);
 setTimeout(playRevealEffect,200);
 createDots();
+
+if(state.personA){
 setTimeout(animateDualRadar,150);
+}
 
 const container=document.querySelector(".swipeContainer");
 container.addEventListener("scroll",updateDots);
@@ -854,6 +857,8 @@ stroke-width="3"/>
 
 function animateDualRadar(){
 
+if(!state.personAvals) return;
+  
 const A = state.personAvals;
 const B = state.result.vals;
 
