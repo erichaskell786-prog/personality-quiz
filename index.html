@@ -319,6 +319,41 @@ box-shadow:0 0 8px rgba(255,255,255,.4);
 .dot-yellow{background:#ffd452;}
 .dot-green{background:#57ff9a;}
 .dot-blue{background:#52a8ff;}
+
+.radarLabel{
+position:absolute;
+font-size:14px;
+font-weight:600;
+opacity:.9;
+}
+
+.label-red{
+top:-18px;
+left:50%;
+transform:translateX(-50%);
+color:#ff6b6b;
+}
+
+.label-yellow{
+right:-45px;
+top:50%;
+transform:translateY(-50%);
+color:#ffd452;
+}
+
+.label-green{
+bottom:-18px;
+left:50%;
+transform:translateX(-50%);
+color:#57ff9a;
+}
+
+.label-blue{
+left:-40px;
+top:50%;
+transform:translateY(-50%);
+color:#52a8ff;
+}
   
 @media (min-width:768px){
 .card{padding:40px}
@@ -530,6 +565,12 @@ return `
 <div class="radarLine" style="transform:rotate(90deg)"></div>
 <div class="radarLine" style="transform:rotate(180deg)"></div>
 <div class="radarLine" style="transform:rotate(270deg)"></div>
+
+<!-- LABELS -->
+<div class="radarLabel label-red">Red</div>
+<div class="radarLabel label-yellow">Yellow</div>
+<div class="radarLabel label-green">Green</div>
+<div class="radarLabel label-blue">Blue</div>
 
 <svg class="radarShape">
 <polygon id="radarPoly"
