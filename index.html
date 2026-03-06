@@ -527,6 +527,9 @@ const theme = types[0].toLowerCase();
 app.innerHTML = `
 <div class="card theme-${theme}">
 <h2>${types.join(" / ")}</h2>
+<h3 style="text-align:center;opacity:.85;margin-top:-6px;">
+${personalityTitle(types)}
+</h3>
 
 <div class="swipeContainer">
 
@@ -783,6 +786,8 @@ return pages.join("");
 
 }
 
+<button onclick="shareResult()">Share Your Result</button>
+
 function renderCompatibility(){
 
 if(state.personA){
@@ -971,6 +976,71 @@ return `
 <p>People with this blend often appear complex to others because different parts of their personality emerge in different situations.</p>
 `;
 }
+
+}
+
+function personalityTitle(types){
+
+const combo = types.join("-");
+
+const titles = {
+
+"Blue": "The Analyst",
+"Red": "The Commander",
+"Yellow": "The Catalyst",
+"Green": "The Harmonizer",
+
+"Blue-Green": "The Strategic Stabilizer",
+"Green-Blue": "The Strategic Stabilizer",
+
+"Blue-Red": "The Tactical Commander",
+"Red-Blue": "The Tactical Commander",
+
+"Yellow-Red": "The Charismatic Driver",
+"Red-Yellow": "The Charismatic Driver",
+
+"Yellow-Green": "The Social Connector",
+"Green-Yellow": "The Social Connector",
+
+"Blue-Yellow": "The Visionary Thinker",
+"Yellow-Blue": "The Visionary Thinker",
+
+"Red-Green": "The Protective Leader",
+"Green-Red": "The Protective Leader",
+
+"Blue-Green-Red": "The Strategic Stabilizer",
+"Blue-Yellow-Red": "The Visionary Commander",
+"Yellow-Green-Blue": "The Insightful Communicator",
+"Red-Yellow-Green": "The Dynamic Leader"
+
+};
+
+return titles[combo] || "The Balanced Personality";
+
+}
+
+function shareResult(){
+
+const {types,vals}=state.result;
+
+const text=`
+My Personality Result
+
+${types.join(" / ")}
+${personalityTitle(types)}
+
+Red: ${vals.Red}%
+Yellow: ${vals.Yellow}%
+Green: ${vals.Green}%
+Blue: ${vals.Blue}%
+
+Take the test:
+`;
+
+navigator.share?.({
+title:"Personality Result",
+text:text
+}) || alert(text);
 
 }
   
