@@ -456,6 +456,7 @@ animation:auraFade 1.2s ease forwards;
 <body>
 
 <div class="card" id="app"></div>
+<canvas id="shareCanvas" width="800" height="800" style="display:none"></canvas>
 
 <script>
 
@@ -587,9 +588,6 @@ margin-bottom:28px;
 Discover how you communicate, lead, and think based on behavioral patterns.
 </p>
 
-<div style="
-font-size:80px;
-margin-bottom:20px;
 <img src="icon-192.png" style="width:90px;margin:20px 0;">
 
 <button onclick="startQuiz()" style="
@@ -775,6 +773,7 @@ setTimeout(animateBars,100);
 setTimeout(animateRadar,120);
 setTimeout(playRevealEffect,200);
 createDots();
+setTimeout(animateDualRadar,150);
 
 const container=document.querySelector(".swipeContainer");
 container.addEventListener("scroll",updateDots);
@@ -1111,7 +1110,6 @@ return `
 <button onclick="savePersonA()">Compare With Someone</button>
 <button onclick="shareResult()">Share Result Card</button>
 <button onclick="restart()">Restart</button>
-setTimeout(animateDualRadar,120);
 `;
 
 }
@@ -1573,8 +1571,6 @@ window.open(url);
 
 }
 
-<canvas id="shareCanvas" width="800" height="800" style="display:none"></canvas>
-  
 showIntro();
 
 if("serviceWorker" in navigator){
