@@ -228,6 +228,27 @@ background:linear-gradient(90deg,#ff5252,#ffd452,#57ff9a,#52a8ff);
 transition:.4s;
 }
 
+.analysisBar{
+width:100%;
+height:14px;
+background:#2a2a3c;
+border-radius:10px;
+overflow:hidden;
+margin-top:24px;
+}
+
+.analysisFill{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#ff5252,#ffd452,#57ff9a,#52a8ff);
+animation:analysisLoad 1.6s ease forwards;
+}
+
+@keyframes analysisLoad{
+from{width:0%}
+to{width:100%}
+}
+
 .resultBar{
 height:16px;
 border-radius:10px;
@@ -372,6 +393,30 @@ h2{font-size:34px}
 p{font-size:20px}
 }
 
+.aura{
+position:absolute;
+width:420px;
+height:420px;
+border-radius:50%;
+filter:blur(80px);
+opacity:.45;
+z-index:-1;
+left:50%;
+top:40%;
+transform:translate(-50%,-50%);
+animation:auraFade 1.2s ease forwards;
+}
+
+.aura-red{background:#ff5252;}
+.aura-yellow{background:#ffd452;}
+.aura-green{background:#57ff9a;}
+.aura-blue{background:#52a8ff;}
+
+@keyframes auraFade{
+0%{opacity:.65;transform:translate(-50%,-50%) scale(.8);}
+100%{opacity:.25;transform:translate(-50%,-50%) scale(1.1);}
+}
+
 </style>
 </head>
 
@@ -489,8 +534,60 @@ state.index++;
 if(state.index<questions.length){
 renderQuestion();
 }else{
+  
+showAnalysisScreen();
+
+setTimeout(()=>{
 calculateResult();
+},1700);
+
 }
+
+function showAnalysisScreen(){
+
+app.innerHTML=`
+
+<div style="text-align:center;padding:40px 20px">
+
+<h2>Analyzing your personality</h2>
+
+<div class="analysisBar">
+<div class="analysisFill"></div>
+</div>
+
+<p id="analysisText" style="opacity:.8;margin-top:18px">
+Evaluating decision patterns...
+</p>
+
+</div>
+
+`;
+
+const messages=[
+"Evaluating decision patterns...",
+"Mapping behavioral tendencies...",
+"Comparing emotional responses...",
+"Calculating personality balance...",
+"Finalizing personality profile..."
+];
+
+let i=0;
+
+const interval=setInterval(()=>{
+
+const text=document.getElementById("analysisText");
+
+if(!text) return;
+
+text.innerText=messages[i % messages.length];
+
+i++;
+
+},400);
+
+setTimeout(()=>{
+clearInterval(interval);
+},1700);
 
 }
 
@@ -523,6 +620,7 @@ function renderResult(){
 const {types}=state.result;
 
 const theme = types[0].toLowerCase();
+const aura=`<div class="aura aura-${theme}"></div>`;
 
 app.innerHTML = `
 <div class="card theme-${theme}">
