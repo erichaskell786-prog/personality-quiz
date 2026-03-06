@@ -786,14 +786,14 @@ return pages.join("");
 
 }
 
-<button onclick="shareResult()">Share Your Result</button>
+<button onclick="shareResult()">Share Your Result Card</button>
 
 function renderCompatibility(){
 
 if(state.personA){
 
 const percent=compatibilityScore(state.personA,state.result.types);
-
+  
 return `
 <h3>${percent}% Match</h3>
 ${compatibilityExplanation(percent)}
@@ -1021,28 +1021,82 @@ return titles[combo] || "The Balanced Personality";
 
 function shareResult(){
 
+const canvas=document.getElementById("shareCanvas");
+const ctx=canvas.getContext("2d");
+
 const {types,vals}=state.result;
 
-const text=`
-My Personality Result
+const title=types.join(" / ");
+const subtitle=personalityTitle(types);
 
-${types.join(" / ")}
-${personalityTitle(types)}
+/* background */
 
-Red: ${vals.Red}%
-Yellow: ${vals.Yellow}%
-Green: ${vals.Green}%
-Blue: ${vals.Blue}%
+ctx.fillStyle="#1e1e2f";
+ctx.fillRect(0,0,800,800);
 
-Take the test:
-`;
+/* title */
 
-navigator.share?.({
-title:"Personality Result",
-text:text
-}) || alert(text);
+ctx.fillStyle="white";
+ctx.font="bold 48px system-ui";
+ctx.textAlign="center";
+ctx.fillText("Personality Result",400,120);
+
+/* main result */
+
+ctx.font="bold 42px system-ui";
+ctx.fillText(title,400,240);
+
+/* subtitle */
+
+ctx.font="28px system-ui";
+ctx.fillStyle="#bbbbff";
+ctx.fillText(subtitle,400,300);
+
+/* bars */
+
+const colors={
+Red:"#ff5252",
+Yellow:"#ffd452",
+Green:"#57ff9a",
+Blue:"#52a8ff"
+};
+
+let y=420;
+
+Object.entries(vals).forEach(([color,value])=>{
+
+ctx.fillStyle="white";
+ctx.font="24px system-ui";
+ctx.fillText(`${color} ${value}%`,400,y);
+
+ctx.fillStyle=colors[color];
+ctx.fillRect(200,y+20,value*4,18);
+
+y+=80;
+
+});
+
+/* export */
+
+canvas.toBlob(async blob=>{
+
+const file=new File([blob],"personality-result.png",{type:"image/png"});
+
+if(navigator.share){
+await navigator.share({
+title:"My Personality Result",
+files:[file]
+});
+}else{
+const url=URL.createObjectURL(blob);
+window.open(url);
+}
+
+});
 
 }
+
+<canvas id="shareCanvas" width="800" height="800" style="display:none"></canvas>
   
 renderQuestion();
 
