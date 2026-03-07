@@ -1088,7 +1088,10 @@ function updateDots(){
 const container=document.querySelector(".swipeContainer");
 const dots=document.querySelectorAll(".dot");
 
-const pageWidth=container.querySelector(".page").offsetWidth + 12;
+const page = container.querySelector(".page");
+if(!page) return;
+
+const pageWidth = page.offsetWidth + 12;
 const index=Math.round(container.scrollLeft/pageWidth);
 
 dots.forEach(d=>d.classList.remove("active"));
