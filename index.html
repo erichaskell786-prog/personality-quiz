@@ -44,15 +44,21 @@ margin-bottom:12px;
 .swipeContainer{
 display:flex;
 overflow-x:auto;
-scrollbar-width:none;
 scroll-snap-type:x mandatory;
-touch-action:pan-y pan-x;
+
 scroll-snap-stop: always;
+
+touch-action:pan-y pan-x;
+
 scroll-behavior:smooth;
+
 -webkit-overflow-scrolling:touch;
 overscroll-behavior-x:contain;
-scroll-padding:12px;
-align-items:stretch;
+
+gap:12px;
+padding:4px 8px;
+
+align-items:flex-start;
 }
 
 .swipeContainer::-webkit-scrollbar{
@@ -63,6 +69,8 @@ display:none;
 min-width:92%;
 scroll-snap-align:start;
 scroll-snap-stop:always;
+
+flex-shrink:0;
   
 display:flex;
 flex-direction:column;
