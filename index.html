@@ -67,9 +67,8 @@ display:none;
   
 .page{
 min-width:92%;
-scroll-snap-align:start;
+scroll-snap-align:center;
 scroll-snap-stop:always;
-
 flex-shrink:0;
   
 display:flex;
@@ -78,7 +77,6 @@ justify-content:flex-start;
   
 gap:14px;
 padding:18px;
-margin-right:12px;
   
 border-radius:20px;
 background:rgba(30,30,47,.75);
@@ -91,20 +89,12 @@ animation:cardFade .4s ease;
 height:auto;
 min-height:0;
 align-self:flex-start;
-}
-
-.page{
-min-width:92%;
-scroll-snap-align:center;
-scroll-snap-stop:always;
-flex-shrink:0;
 
 transform:scale(.92);
 opacity:.65;
 
-transition:
-transform .35s ease,
-opacity .35s ease;
+transition:transform .35s ease, opacity .35s ease;
+animation:cardFade .4s ease;
 }
 
 .page.active{
