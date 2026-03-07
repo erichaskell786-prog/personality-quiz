@@ -853,7 +853,9 @@ setTimeout(animateDualRadar,150);
 
 const container = document.querySelector(".swipeContainer");
 
-if(container){
+if(container && !container.dataset.listener){
+container.dataset.listener = "true";
+
 container.addEventListener("scroll", () => {
 updateDots();
 magneticSnap();
