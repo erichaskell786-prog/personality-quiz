@@ -360,7 +360,7 @@ position:absolute;
 left:50%;
 top:50%;
 width:2px;
-height:100px;
+height:50%;
 background:rgba(255,255,255,.2);
 transform-origin:bottom center;
 }
@@ -860,6 +860,7 @@ setTimeout(animateDualRadar,150);
 
 const container = document.querySelector(".swipeContainer");
 
+if(container){
 container.addEventListener("scroll", () => {
 updateDots();
 magneticSnap();
