@@ -882,8 +882,11 @@ const container=document.querySelector(".swipeContainer");
 container.addEventListener("scroll",()=>{
 updateDots();
 magneticSnap();
+updateCardFocus();
 });
 }
+
+setTimeout(updateCardFocus,50);
 
 function renderRadar(){
 
