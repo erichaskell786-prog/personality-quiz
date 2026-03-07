@@ -841,6 +841,17 @@ return `
 fill="rgba(82,168,255,.25)"
 stroke="#52a8ff"
 stroke-width="2"/>
+
+<defs>
+<filter id="glow">
+<feGaussianBlur stdDeviation="3" result="blur"/>
+<feMerge>
+<feMergeNode in="blur"/>
+<feMergeNode in="SourceGraphic"/>
+</feMerge>
+</filter>
+</defs>
+
 </svg>
 
 <div class="radarDot dot-red" id="dotRed"></div>
