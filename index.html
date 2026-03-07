@@ -1121,13 +1121,16 @@ let snapTimeout;
 function magneticSnap(){
 
 const container=document.querySelector(".swipeContainer");
+const page = container.querySelector(".page");
+
+if(!page) return;
 
 clearTimeout(snapTimeout);
 
 snapTimeout=setTimeout(()=>{
 
-const pageWidth=container.querySelector(".page").offsetWidth + 12;
-const index=Math.round(container.scrollLeft/pageWidth);
+const pageWidth = page.offsetWidth + 12;
+const index = Math.round(container.scrollLeft/pageWidth);
 
 container.scrollTo({
 left:index*pageWidth,
