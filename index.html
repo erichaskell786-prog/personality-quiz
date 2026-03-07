@@ -48,7 +48,7 @@ scroll-behavior:smooth;
 -webkit-overflow-scrolling:touch;
 overscroll-behavior-x:contain;
 scroll-padding:12px;
-align-items:flex-start;
+align-items:stretch;
 }
 
 .swipeContainer::-webkit-scrollbar{
@@ -77,7 +77,8 @@ transition:transform .35s ease, opacity .35s ease;
 animation:cardFade .4s ease;
 
 height:auto;
-min-height:unset;
+min-height:0;
+align-self:flex-start;
 }
 
 .page:not(:first-child){
