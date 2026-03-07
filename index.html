@@ -1584,6 +1584,52 @@ window.open(url);
 
 }
 
+function drawCompatibilityChart(a,b){
+
+const ctx=document.getElementById("compatChart");
+
+if(!ctx) return;
+
+new Chart(ctx,{
+type:"radar",
+data:{
+labels:["Red","Yellow","Green","Blue"],
+datasets:[
+{
+label:"Person A",
+data:[a.Red,a.Yellow,a.Green,a.Blue],
+backgroundColor:"rgba(255,99,132,0.2)",
+borderColor:"rgba(255,99,132,1)",
+borderWidth:2
+},
+{
+label:"Person B",
+data:[b.Red,b.Yellow,b.Green,b.Blue],
+backgroundColor:"rgba(54,162,235,0.2)",
+borderColor:"rgba(54,162,235,1)",
+borderWidth:2
+}
+]
+},
+options:{
+scales:{
+r:{
+beginAtZero:true,
+max:100,
+ticks:{display:false},
+grid:{color:"#444"}
+}
+},
+plugins:{
+legend:{
+labels:{color:"white"}
+}
+}
+}
+});
+
+}
+  
 showIntro();
 
 if("serviceWorker" in navigator){
