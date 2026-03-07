@@ -69,6 +69,7 @@ background:rgba(30,30,47,.75);
 backdrop-filter:blur(6px);
 box-shadow:0 12px 30px rgba(0,0,0,.35);
 transition:transform .35s ease, opacity .35s ease;
+animation:cardFade .4s ease;
 
 height:auto;
 min-height:unset;
@@ -178,10 +179,6 @@ background:linear-gradient(135deg,#1b2333,#22304a);
 @keyframes fade{
 from{opacity:0;transform:translateY(20px)}
 to{opacity:1}
-}
-
-.page{
-animation:cardFade .4s ease;
 }
 
 @keyframes cardFade{
@@ -1107,9 +1104,16 @@ function renderColorPages(){
 
 const {types}=state.result;
 
+function renderColorPages(){
+
+const {types}=state.result;
+
 return types.map(color => `
 <div class="page">
+
 <div class="pageTitle title-${color.toLowerCase()}">
+${color}
+</div>
 
 ${coreDefinition(color)}
 
