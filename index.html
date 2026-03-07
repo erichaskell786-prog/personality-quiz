@@ -1115,8 +1115,8 @@ pages.forEach(page=>{
 const box=page.getBoundingClientRect();
 const pageCenter=box.left + box.width/2;
 
-const distance=Math.abs(pageCenter - window.innerWidth/2);
-
+const containerCenter = container.getBoundingClientRect().left + container.clientWidth/2;
+const distance = Math.abs(pageCenter - containerCenter);
 if(distance < box.width/2){
 page.classList.add("active");
 }else{
