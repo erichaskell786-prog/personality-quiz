@@ -40,6 +40,7 @@ letter-spacing:.5px;
 .swipeContainer{
 display:flex;
 overflow-x:auto;
+scrollbar-width:none;
 scroll-snap-type:x mandatory;
 scroll-snap-stop: always;
 scroll-behavior:smooth;
@@ -47,6 +48,10 @@ scroll-behavior:smooth;
 overscroll-behavior-x:contain;
 scroll-padding:12px;
 align-items:flex-start;
+}
+
+.swipeContainer::-webkit-scrollbar{
+display:none;
 }
   
 .page{
@@ -458,7 +463,6 @@ z-index:-1;
 left:50%;
 top:40%;
 transform:translate(-50%,-50%);
-animation:auraPulse 6s ease-in-out infinite;
 pointer-events:none;
   
 animation:
@@ -919,12 +923,12 @@ fill="rgba(255,212,82,.25)"
 stroke="#ffd452"
 stroke-width="3"/>
 
+</svg>
+
 <div class="radarLine" style="transform:rotate(0deg)"></div>
 <div class="radarLine" style="transform:rotate(90deg)"></div>
 <div class="radarLine" style="transform:rotate(180deg)"></div>
 <div class="radarLine" style="transform:rotate(270deg)"></div>
-
-</svg>
 
 <div class="radarLabel label-red">Red</div>
 <div class="radarLabel label-yellow">Yellow</div>
@@ -1093,10 +1097,6 @@ ${Object.entries(vals).map(([color,value])=>`
 `;
 
 }
-
-function renderColorPages(){
-
-const {types}=state.result;
 
 function renderColorPages(){
 
