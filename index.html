@@ -1111,6 +1111,30 @@ dots[index].classList.add("active");
 
 }
 
+function updateCardFocus(){
+
+const container=document.querySelector(".swipeContainer");
+const pages=document.querySelectorAll(".page");
+
+const center=container.scrollLeft + container.clientWidth/2;
+
+pages.forEach(page=>{
+
+const box=page.getBoundingClientRect();
+const pageCenter=box.left + box.width/2;
+
+const distance=Math.abs(pageCenter - window.innerWidth/2);
+
+if(distance < box.width/2){
+page.classList.add("active");
+}else{
+page.classList.remove("active");
+}
+
+});
+
+}
+
 let snapTimeout;
 
 function magneticSnap(){
