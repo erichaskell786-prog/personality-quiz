@@ -1019,9 +1019,10 @@ const x=100+Math.cos(rad)*r;
 const y=100+Math.sin(rad)*r;
 
 const dot=document.getElementById(id);
-
+if(dot){
 dot.style.left=x+"px";
 dot.style.top=y+"px";
+}
 
 return `${x},${y}`;
 
