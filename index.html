@@ -28,7 +28,7 @@ min-height:100vh;
 text-align:left;
 font-size:26px;
 font-weight:700;
-margin:6px 0 8px;
+margin:6px 0 12px;
 letter-spacing:.5px;
 }
 
@@ -337,8 +337,8 @@ margin:12px 0 18px 0;
 
 .radar{
 position:relative;
-width:200px;
-height:200px;
+width:min(220px,60vw);
+height:min(220px,60vw);
 border-radius:50%;
 }
 
@@ -860,9 +860,10 @@ setTimeout(animateDualRadar,150);
 
 const container=document.querySelector(".swipeContainer");
 container.addEventListener("scroll",()=>{
+container.addEventListener("scroll",()=>{
 updateDots();
 magneticSnap();
-updateCardFocus();
+requestAnimationFrame(updateCardFocus);
 });
 }
 
