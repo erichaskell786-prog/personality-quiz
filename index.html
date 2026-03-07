@@ -1373,32 +1373,25 @@ function blendDefinition(types){
 const [a,b,c] = types;
 
 if(types.length === 1){
+
 return `
-<p>Your personality is strongly centered in <b>${a}</b>. This means your motivations, decisions, and reactions tend to follow a consistent internal pattern.</p>
-`;
-}
+
+<p>Your personality profile shows a strong concentration in <b>${a}</b>. This means your motivations, reactions, and decision patterns tend to follow a consistent internal style.</p><p>While everyone contains elements of all four personality colors, your behavioral patterns appear strongly centered in this one orientation.</p>
+`;}
 
 if(types.length === 2){
+
 return `
-<p>Your personality is primarily driven by <b>${a}</b> with strong influence from <b>${b}</b>.</p>
 
-<p>This means your natural instincts from ${a} are often balanced by the perspective and behavioral style of ${b}. In some situations you may lead with the drive of ${a}, while in others the tendencies of ${b} shape how you respond.</p>
-
-<p>This combination often creates a personality that can operate effectively in both structured and dynamic environments.</p>
-`;
-}
+<p>Your personality is primarily driven by <b>${a}</b> with strong influence from <b>${b}</b>.</p><p>This combination creates an internal dynamic where the motivations of these two personality systems interact. At times they reinforce each other, while in other situations they may create tension in how you approach decisions.</p><p>Many people with this blend feel flexible across different environments because they can draw from two distinct behavioral styles.</p>
+`;}
 
 if(types.length === 3){
+
 return `
-<p>Your personality contains a layered blend of <b>${a}</b>, <b>${b}</b>, and <b>${c}</b>.</p>
 
-<p>${a} tends to guide your core decision making, ${b} influences how you interact with people, and ${c} shapes how you internally process situations.</p>
-
-<p>This gives you a flexible personality structure where different traits may appear depending on the environment.</p>
-
-<p>People with this blend often appear complex to others because different parts of their personality emerge in different situations.</p>
-`;
-}
+<p>Your personality profile shows three significant influences: <b>${a}</b>, <b>${b}</b>, and <b>${c}</b>.</p><p>Rather than operating from a single dominant style, your behavior may shift depending on context, environment, or social dynamics.</p><p>This layered structure can make your personality appear complex to others because different traits may emerge in different situations.</p>
+`;}
 
 }
 
