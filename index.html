@@ -860,8 +860,10 @@ setTimeout(animateDualRadar,150);
 }
 
 const container=document.querySelector(".swipeContainer");
-container.addEventListener("scroll",updateDots);
-
+container.addEventListener("scroll",()=>{
+updateDots();
+magneticSnap();
+});
 }
 
 function renderRadar(){
