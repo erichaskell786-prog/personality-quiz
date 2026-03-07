@@ -797,7 +797,7 @@ ${personalityTitle(types)}
 <div class="swipeContainer">
 
 <div class="page">
-${renderRadar()}
+${state.personA ? renderDualRadar() : renderRadar()}
 ${renderScoreBars()}
 </div>
 
