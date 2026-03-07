@@ -1404,43 +1404,127 @@ return `
 
 function personalityInsights(types){
 
-const [a,b,c] = types;
+const vals = state.result.vals;
+const [primary, secondary, tertiary] = types;
 
-const data={
+const behavior = {
 
 Red:{
-lead:"You naturally take charge and move situations toward results.",
-communication:"You communicate directly and expect efficiency from others.",
-motivation:"Achievement, progress, and visible results.",
-stress:"Slow decisions, hesitation, or lack of progress.",
-environment:"Fast-moving environments where initiative is rewarded."
+decision:"You tend to move toward decisions quickly once you believe a direction will produce results. Waiting too long to act often feels worse than adjusting course later.",
+social:"Others often experience you as confident and direct. In fast-moving environments this energy can push teams forward, but slower groups may feel pressured by your pace.",
+stress:"When momentum stalls or progress slows, frustration can build quickly. Under pressure you may push harder rather than pause.",
+environment:"You tend to thrive where initiative is rewarded and progress is visible."
 },
 
 Yellow:{
-lead:"You influence through enthusiasm and inspiration.",
-communication:"Expressive and energetic communication style.",
-motivation:"Recognition, excitement, and meaningful experiences.",
-stress:"Rigid systems or environments that limit creativity.",
-environment:"Collaborative spaces where ideas and energy are valued."
+decision:"You often evaluate situations through emotional tone and excitement rather than rigid structure. If something feels energizing, you're more likely to move toward it.",
+social:"People often experience you as expressive and engaging. You naturally bring energy into conversations and can shift the emotional tone of a room.",
+stress:"Highly rigid systems or environments that suppress expression can quickly drain your motivation.",
+environment:"You tend to thrive in collaborative spaces where creativity and connection are valued."
 },
 
 Green:{
-lead:"You lead through support and emotional stability.",
-communication:"Calm, empathetic, and relationship-focused.",
-motivation:"Harmony, loyalty, and long-term stability.",
-stress:"Conflict-heavy or highly competitive situations.",
-environment:"Stable teams where trust and cooperation are strong."
+decision:"You tend to consider how decisions affect the people around you. Maintaining stability and trust often weighs heavily in your thinking.",
+social:"Others often experience you as steady and supportive. You naturally create emotional safety for the people around you.",
+stress:"Conflict-heavy environments can become exhausting, especially when harmony feels constantly disrupted.",
+environment:"You tend to thrive in stable teams where cooperation and loyalty are strong."
 },
 
 Blue:{
-lead:"You lead through analysis, planning, and strategic thinking.",
-communication:"Logical, structured, and detail-oriented.",
-motivation:"Accuracy, competence, and understanding.",
-stress:"Unclear expectations or chaotic environments.",
-environment:"Organized systems where precision matters."
+decision:"You tend to analyze information carefully before committing to a direction. Accuracy and clarity often matter more than speed.",
+social:"People often experience you as thoughtful and composed. You tend to observe and process before speaking.",
+stress:"Situations with unclear rules or chaotic expectations can feel mentally draining.",
+environment:"You tend to thrive in structured systems where precision and competence are valued."
 }
 
 };
+
+function intensity(color){
+
+const score = vals[color];
+
+if(score > 45) return "dominant";
+if(score > 30) return "strong";
+return "present";
+
+}
+
+function blend(primary, secondary){
+
+const combos = {
+
+"Red-Blue":
+"Your personality blends decisive momentum with analytical caution. One part of you pushes toward results while another part checks the logic behind the plan.",
+
+"Blue-Red":
+"Your thinking often moves between careful analysis and decisive execution. When balanced well, this combination produces strategic action.",
+
+"Red-Yellow":
+"You tend to combine assertive energy with social enthusiasm. This often creates a personality that can both drive action and energize others.",
+
+"Yellow-Red":
+"You often influence others through enthusiasm while still pushing toward outcomes. This combination can make you highly persuasive.",
+
+"Blue-Green":
+"You tend to combine careful thinking with emotional awareness. This often produces a calm, thoughtful approach to complex problems.",
+
+"Green-Blue":
+"You often seek both logical clarity and emotional stability. This combination tends to produce a steady and thoughtful presence.",
+
+"Yellow-Green":
+"You often bring warmth and encouragement into social spaces. People may naturally feel comfortable around you.",
+
+"Green-Yellow":
+"You often express care for others in visible ways. This combination can make you a supportive but socially expressive presence.",
+
+"Red-Green":
+"You may experience a tension between pushing forward and maintaining harmony. When balanced, this can create a protective leadership style.",
+
+"Green-Red":
+"You often care deeply about the well-being of others but are willing to step forward when action is required.",
+
+"Blue-Yellow":
+"You combine analytical thinking with expressive communication. This can make you skilled at explaining complex ideas in engaging ways.",
+
+"Yellow-Blue":
+"You often alternate between imaginative thinking and structured reasoning."
+};
+
+return combos[primary+"-"+secondary] || "";
+
+}
+
+let text = "";
+
+text += "<h3>Decision Pattern</h3>";
+text += "<p>"+behavior[primary].decision+"</p>";
+
+text += "<h3>How Others Experience You</h3>";
+text += "<p>"+behavior[primary].social+"</p>";
+
+if(secondary){
+
+text += "<h3>Personality Dynamics</h3>";
+text += "<p>"+blend(primary,secondary)+"</p>";
+
+}
+
+text += "<h3>Stress Patterns</h3>";
+text += "<p>"+behavior[primary].stress+"</p>";
+
+text += "<h3>Where You Perform Best</h3>";
+text += "<p>"+behavior[primary].environment+"</p>";
+
+if(tertiary){
+
+text += "<h3>Additional Influence</h3>";
+text += "<p>Your "+tertiary+" tendencies add another layer to your behavior. In certain environments this side of your personality may become more visible.</p>";
+
+}
+
+return text;
+
+}
 
 function combine(field){
 
