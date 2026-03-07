@@ -512,6 +512,28 @@ transform:translate(-50%,-50%) scale(.85);
   
 <script>
 
+const adaptiveQuestions = {
+
+"Red-Blue":[
+["When solving a problem you usually…",
+["Act quickly and adjust later","Explain the idea enthusiastically","Keep everyone comfortable","Analyze every variable first"]],
+
+["When a plan is unclear you prefer…",
+["Start moving anyway","Brainstorm ideas with people","Wait for group consensus","Clarify the details before acting"]]
+],
+
+"Red-Green":[
+["When someone disagrees with you…",
+["Confront it directly","Change the mood","Try to keep peace","Step back and analyze"]]
+],
+
+"Blue-Yellow":[
+["In conversations you usually…",
+["Guide toward conclusions","Tell stories and ideas","Listen carefully","Explain concepts logically"]]
+]
+
+};
+
 const questions = [
 ["When starting something new you usually…",
 ["Jump in immediately","Talk it through excitedly","Make sure everyone’s comfortable","Plan carefully first"]],
@@ -586,6 +608,23 @@ tab:"Core"
 };
 
 const app=document.getElementById("app");
+
+function detectConflict(){
+
+const scores = state.score;
+
+const sorted = Object.entries(scores)
+.sort((a,b)=>b[1]-a[1]);
+
+const diff = sorted[0][1] - sorted[1][1];
+
+if(diff <= 1){
+return sorted[0][0] + "-" + sorted[1][0];
+}
+
+return null;
+
+}
 
 function shuffle(a){
 return a.map(v=>[Math.random(),v])
