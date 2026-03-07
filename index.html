@@ -739,7 +739,21 @@ function pick(color){
 state.score[color]++;
 state.index++;
 
-if(state.index<questions.length){
+const conflict = detectConflict();
+
+if(conflict && adaptiveQuestions[conflict] && !state.adaptiveUsed){
+
+state.adaptiveUsed = true;
+
+questions.push(
+adaptiveQuestions[conflict][
+Math.floor(Math.random()*adaptiveQuestions[conflict].length)
+]
+);
+
+}
+
+if(state.index < questions.length){
 renderQuestion();
 }else{
   
