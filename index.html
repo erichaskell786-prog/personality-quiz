@@ -858,14 +858,13 @@ if(state.personA){
 setTimeout(animateDualRadar,150);
 }
 
-const container=document.querySelector(".swipeContainer");
+const container = document.querySelector(".swipeContainer");
 
-container.addEventListener("scroll",()=>{
+container.addEventListener("scroll", () => {
 updateDots();
 magneticSnap();
 requestAnimationFrame(updateCardFocus);
 });
-}
 
 function renderRadar(){
 
