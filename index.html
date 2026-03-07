@@ -1135,38 +1135,6 @@ bar.style.width=target;
 
 }
 
-/* PAGE 2+ — Personality Pages */
-
-types.forEach(color=>{
-pages.push(`
-<div class="swipePage theme-${color.toLowerCase()}">
-<h3>${color}</h3>
-${coreDefinition(color)}
-</div>
-`);
-});
-
-/* Blend Page */
-
-pages.push(`
-<div class="swipePage">
-<h3>Blend Dynamics</h3>
-${blendDefinition(types)}
-</div>
-`);
-
-/* Compatibility Page */
-
-pages.push(`
-<div class="swipePage">
-<button onclick="savePersonA()">Compare With Someone</button>
-</div>
-`);
-
-return pages.join("");
-
-}
-
 function renderCompatibility(){
 
 if(state.personA){
