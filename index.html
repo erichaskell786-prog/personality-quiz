@@ -46,22 +46,30 @@ scroll-behavior:smooth;
 -webkit-overflow-scrolling:touch;
 overscroll-behavior-x:contain;
 scroll-padding:12px;
+align-items:flex-start;
 }
-
+  
 .page{
 min-width:92%;
 scroll-snap-align:center;
+  
 display:flex;
 flex-direction:column;
 justify-content:flex-start;
+  
 gap:14px;
-padding:14px;
+padding:18px;
 margin-right:12px;
+  
 border-radius:20px;
 background:rgba(30,30,47,.75);
+  
 backdrop-filter:blur(6px);
 box-shadow:0 12px 30px rgba(0,0,0,.35);
 transition:transform .35s ease, opacity .35s ease;
+
+height:auto;
+min-height:unset;
 }
 
 .page:not(:first-child){
