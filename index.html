@@ -821,7 +821,10 @@ ${renderCompatibility()}
 `;
 
 setTimeout(animateBars,100);
+
+if(!state.personA){
 setTimeout(animateRadar,120);
+}
 setTimeout(playRevealEffect,200);
 createDots();
 
