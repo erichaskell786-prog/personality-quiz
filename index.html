@@ -41,6 +41,7 @@ letter-spacing:.5px;
 display:flex;
 overflow-x:auto;
 scroll-snap-type:x mandatory;
+scroll-snap-stop: always;
 scroll-behavior:smooth;
 -webkit-overflow-scrolling:touch;
 overscroll-behavior-x:contain;
@@ -782,6 +783,12 @@ setTimeout(animateRadar,120);
 setTimeout(playRevealEffect,200);
 createDots();
 
+if(state.personA){
+setTimeout(()=>{
+drawCompatibilityChart(state.personAvals,state.result.vals);
+},150);
+}
+  
 if(state.personA){
 setTimeout(animateDualRadar,150);
 }
