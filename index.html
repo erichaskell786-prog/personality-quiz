@@ -1134,21 +1134,6 @@ bar.style.width=target;
 });
 
 }
-  
-function renderTabContent(){
-
-const {types,vals}=state.result;
-
-let pages=[];
-
-/* PAGE 1 — Results Overview */
-
-pages.push(`
-<div class="swipePage">
-<h3>Your Personality Breakdown</h3>
-${renderScoreBars()}
-</div>
-`);
 
 /* PAGE 2+ — Personality Pages */
 
