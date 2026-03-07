@@ -1028,6 +1028,8 @@ function drawPolygon(points){
 
 const poly=document.getElementById("radarPoly");
 
+if(!poly) return;
+
 poly.setAttribute("points",points.join(" "));
 
 }
