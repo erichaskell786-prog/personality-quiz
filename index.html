@@ -739,10 +739,14 @@ function pick(color){
 state.score[color]++;
 state.index++;
 
-const conflict = detectConflict();
+let conflict = null;
+
+if(state.index >= 8){
+conflict = detectConflict();
+}
 
 if(conflict && adaptiveQuestions[conflict] && !state.adaptiveUsed){
-
+  
 state.adaptiveUsed = true;
 
 questions.push(
