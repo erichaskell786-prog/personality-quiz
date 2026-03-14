@@ -711,7 +711,13 @@ margin-top:20px;
 }
 
 function startQuiz(){
+
+activeQuestions = [...questions];
+
+state.adaptiveUsed = false;
+
 renderQuestion();
+
 }
 
 function renderQuestion(){
