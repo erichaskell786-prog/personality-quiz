@@ -1303,6 +1303,9 @@ function restart(second=false){
 state.score={Red:0,Yellow:0,Green:0,Blue:0};
 state.index=0;
 state.result=null;
+state.adaptiveUsed=false;
+
+activeQuestions=[...questions];
 
 if(second){
 app.innerHTML=`<h2>Person B</h2><button onclick="renderQuestion()">Start</button>`;
