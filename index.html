@@ -711,13 +711,19 @@ margin-top:20px;
 }
 
 function startQuiz(){
+
+activeQuestions = [...questions];
+
+state.adaptiveUsed = false;
+
 renderQuestion();
+
 }
 
 function renderQuestion(){
 
 const percent=Math.round(state.index/activeQuestions.length*100);
-const q=questions[state.index];
+const q=activeQuestions[state.index];
 const opts=shuffle(q[1].map((t,i)=>({t,c:COLORS[i]})));
 
 app.innerHTML=`
