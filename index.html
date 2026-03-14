@@ -820,7 +820,7 @@ clearInterval(interval);
 
 function calculateResult(){
 
-const total=questions.length;
+const total = activeQuestions.length;
 
 const vals=Object.fromEntries(
 COLORS.map(c=>[c,Math.round(state.score[c]/total*100)])
