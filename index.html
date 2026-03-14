@@ -1572,42 +1572,6 @@ return text;
 
 }
 
-function combine(field){
-
-let text=data[a][field];
-
-if(b){
-text += " Your secondary "+b+" influence adds another layer to how this appears in practice.";
-}
-
-if(c){
-text += " The presence of "+c+" can also surface depending on the situation.";
-}
-
-return `<p>${text}</p>`;
-}
-
-return `
-
-<h3>How You Lead</h3>
-${combine("lead")}
-
-<h3>Communication Style</h3>
-${combine("communication")}
-
-<h3>Motivation</h3>
-${combine("motivation")}
-
-<h3>Stress Triggers</h3>
-${combine("stress")}
-
-<h3>Ideal Environment</h3>
-${combine("environment")}
-
-`;
-
-}
-
 function personalityTitle(types){
 
 const combo = types.join("-");
