@@ -1284,6 +1284,25 @@ page.classList.remove("active");
 
 let snapTimeout;
 
+function updateCardHeight(){
+
+const container = document.querySelector(".swipeContainer");
+const card = document.querySelector(".card");
+const pages = document.querySelectorAll(".page");
+
+if(!container || !card || !pages.length) return;
+
+const pageWidth = container.clientWidth;
+const index = Math.round(container.scrollLeft / pageWidth);
+
+const activePage = pages[index];
+
+if(activePage){
+card.style.height = activePage.offsetHeight + "px";
+}
+
+}
+  
 function magneticSnap(){
 
 const container=document.querySelector(".swipeContainer");
