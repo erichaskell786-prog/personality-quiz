@@ -1708,6 +1708,21 @@ const subtitle=personalityTitle(types);
 
 /* background */
 
+function buildGradient(types){
+
+const colors = {
+Red:"#ff5252",
+Yellow:"#ffd452",
+Green:"#57ff9a",
+Blue:"#52a8ff"
+};
+
+const stops = types.map(t=>colors[t]).join(",");
+
+return `linear-gradient(135deg,#1e1e2f,${stops})`;
+
+}
+
 ctx.fillStyle="#1e1e2f";
 ctx.fillRect(0,0,800,800);
 
