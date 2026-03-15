@@ -875,7 +875,6 @@ function renderResult(){
 
 const {types}=state.result;
 
-const theme = types[0].toLowerCase();
 const aura=`
 <div class="aura aura-${types[0].toLowerCase()}"></div>
 ${types[1] ? `<div class="aura aura-${types[1].toLowerCase()}" style="opacity:.25;"></div>` : ""}
