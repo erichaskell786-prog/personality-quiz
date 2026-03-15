@@ -44,9 +44,7 @@ overflow-x:auto;
 scroll-snap-type:x mandatory;
 
 scroll-snap-stop: always;
-
 touch-action:pan-y pan-x;
-
 scroll-behavior:smooth;
 
 -webkit-overflow-scrolling:touch;
@@ -55,7 +53,7 @@ overscroll-behavior-x:contain;
 gap:12px;
 padding:4px 8px;
 
-align-items:flex-start;
+align-items:center;
 }
 
 .swipeContainer::-webkit-scrollbar{
@@ -84,8 +82,8 @@ transition:transform .35s ease, opacity .35s ease;
 animation:cardFade .4s ease;
 
 height:auto;
-min-height:80vh;
-align-self:auto;
+min-height:unset;
+align-self:flex-start;
 text-align:left;
 
 box-sizing:border-box;
@@ -206,6 +204,7 @@ animation:fade .4s ease;
 margin:0 auto;
 box-sizing:border-box;
 overflow:hidden;
+position:relative;
 }
 
 @keyframes fade{
@@ -527,7 +526,7 @@ filter:blur(110px);
 opacity:.35;
 z-index:-1;
 left:50%;
-top:40%;
+top:50%;
 transform:translate(-50%,-50%);
 pointer-events:none;
   
