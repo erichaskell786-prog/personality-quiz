@@ -83,11 +83,24 @@ transition:transform .35s ease, opacity .35s ease;
 animation:cardFade .4s ease;
 
 height:auto;
-min-height:0;
-align-self:flex-start;
+min-height:80vh;
+align-self:auto;
 
 transform:scale(.92);
 opacity:.65;
+}
+
+.page::-webkit-scrollbar{
+width:6px;
+}
+
+.page::-webkit-scrollbar-thumb{
+background:rgba(255,255,255,.15);
+border-radius:10px;
+}
+
+.page{
+-webkit-overflow-scrolling:touch;
 }
 
 .page.active{
