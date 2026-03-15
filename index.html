@@ -342,6 +342,29 @@ align-items:center;
 margin:12px 0 18px 0;
 }
 
+.radarPulse{
+animation:radarGlow 4s ease-in-out infinite;
+}
+
+@keyframes radarGlow{
+
+0%{
+stroke-width:2;
+filter:drop-shadow(0 0 6px rgba(82,168,255,.6));
+}
+
+50%{
+stroke-width:3;
+filter:drop-shadow(0 0 16px rgba(82,168,255,1));
+}
+
+100%{
+stroke-width:2;
+filter:drop-shadow(0 0 6px rgba(82,168,255,.6));
+}
+
+}
+
 .radar{
 position:relative;
 width:min(220px,60vw);
