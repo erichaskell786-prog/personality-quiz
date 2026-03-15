@@ -1312,11 +1312,14 @@ if(!container || !card || !pages.length) return;
 
 const pageWidth = container.querySelector(".page").offsetWidth;
 const index = Math.round(container.scrollLeft / pageWidth);
-  
+
 const activePage = pages[index];
 
 if(activePage){
-card.style.height = activePage.offsetHeight + "px";
+
+const headerHeight = 120; 
+card.style.height = (activePage.offsetHeight + headerHeight) + "px";
+
 }
 
 }
