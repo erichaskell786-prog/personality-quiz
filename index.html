@@ -1092,16 +1092,33 @@ return `${x},${y}`;
 
 function animateRadar(){
 
-const {vals}=state.result;
+const {vals} = state.result;
+
+let progress = 0;
+
+const duration = 700;
+const start = performance.now();
+
+function frame(time){
+
+progress = Math.min((time - start) / duration, 1);
 
 const points=[];
 
-points.push(placeDot("dotRed",vals.Red,270));
-points.push(placeDot("dotYellow",vals.Yellow,0));
-points.push(placeDot("dotGreen",vals.Green,90));
-points.push(placeDot("dotBlue",vals.Blue,180));
+points.push(placeDot("dotRed",vals.Red * progress,270));
+points.push(placeDot("dotYellow",vals.Yellow * progress,0));
+points.push(placeDot("dotGreen",vals.Green * progress,90));
+points.push(placeDot("dotBlue",vals.Blue * progress,180));
 
 drawPolygon(points);
+
+if(progress < 1){
+requestAnimationFrame(frame);
+}
+
+}
+
+requestAnimationFrame(frame);
 
 }
 
