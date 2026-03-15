@@ -1709,18 +1709,6 @@ return titles[combo] || "The Balanced Personality";
 
 }
 
-function shareResult(){
-
-const canvas=document.getElementById("shareCanvas");
-const ctx=canvas.getContext("2d");
-
-const {types,vals}=state.result;
-
-const title=types.join(" / ");
-const subtitle=personalityTitle(types);
-
-/* background */
-
 function buildGradient(types){
 
 const colors = {
@@ -1735,6 +1723,18 @@ const stops = types.map(t=>colors[t]).join(",");
 return `linear-gradient(135deg,#1e1e2f,${stops})`;
 
 }
+
+function shareResult(){
+
+const canvas=document.getElementById("shareCanvas");
+const ctx=canvas.getContext("2d");
+
+const {types,vals}=state.result;
+
+const title=types.join(" / ");
+const subtitle=personalityTitle(types);
+
+/* background */
 
 ctx.fillStyle="#1e1e2f";
 ctx.fillRect(0,0,800,800);
