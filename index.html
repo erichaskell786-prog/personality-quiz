@@ -40,22 +40,17 @@ letter-spacing:.5px;
 .title-blue{color:#52a8ff;}
 
 .swipeContainer{
-display:flex;
+display:grid;
+grid-auto-flow:column;
+grid-auto-columns:100%;
+
 overflow-x:auto;
 scroll-snap-type:x mandatory;
-
-scroll-snap-stop: always;
-touch-action:pan-y pan-x;
-scroll-behavior:smooth;
-
--webkit-overflow-scrolling:touch;
-overscroll-behavior-x:contain;
 
 gap:12px;
 padding:4px 8px;
 
-align-items:flex-start;
-height:auto;
+align-items:start;
 }
 
 .swipeContainer::-webkit-scrollbar{
