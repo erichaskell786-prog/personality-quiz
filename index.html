@@ -875,7 +875,7 @@ ${types[1] ? `<div class="aura aura-${types[1].toLowerCase()}" style="opacity:.2
 `;
 
 app.innerHTML = `
-<div class="card theme-${theme}">
+<div class="card" style="background:${buildGradient(types)}">
 
 ${aura}
 
