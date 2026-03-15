@@ -29,7 +29,7 @@ text-align:center;
 margin-bottom:20px;
 font-size:26px;
 font-weight:700;
-margin:6px 0 12px;
+margin:8px 0 18px;
 letter-spacing:.5px;
 }
 
@@ -937,13 +937,24 @@ app.innerHTML = `
 
 ${aura}
 
-<h2 style="text-align:center;margin-bottom:6px;">
+<div style="text-align:center;margin-bottom:18px">
+
+<h2 style="
+font-size:30px;
+margin:0;
+">
 ${types.join(" / ")}
 </h2>
 
-<h3 style="text-align:center;opacity:.75;margin-top:-4px;margin-bottom:16px;">
+<div style="
+opacity:.75;
+font-size:18px;
+margin-top:6px;
+">
 ${personalityTitle(types)}
-</h3>
+</div>
+
+</div>
 
 <div class="swipeContainer">
 
