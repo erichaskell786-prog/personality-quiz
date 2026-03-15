@@ -360,6 +360,8 @@ position:relative;
 width:min(220px,60vw);
 height:min(220px,60vw);
 border-radius:50%;
+
+animation:radarReveal 900ms ease-out;
 }
 
 .radarRing{
@@ -401,6 +403,16 @@ height:10px;
 border-radius:50%;
 transform:translate(-50%,-50%);
 box-shadow:0 0 8px rgba(255,255,255,.4);
+}
+
+.radarDot{
+animation:dotPop .5s ease;
+}
+
+@keyframes dotPop{
+0%{transform:translate(-50%,-50%) scale(0)}
+70%{transform:translate(-50%,-50%) scale(1.2)}
+100%{transform:translate(-50%,-50%) scale(1)}
 }
 
 .dot-red{background:#ff5252;}
@@ -525,6 +537,24 @@ transform:translate(-50%,-50%) scale(1.05);
 opacity:.35;
 transform:translate(-50%,-50%) scale(.85);
 }
+}
+
+@keyframes radarReveal{
+
+0%{
+transform:rotate(-25deg) scale(.85);
+opacity:.4;
+}
+
+60%{
+transform:rotate(6deg) scale(1.05);
+opacity:1;
+}
+
+100%{
+transform:rotate(0deg) scale(1);
+}
+
 }
 
 </style>
