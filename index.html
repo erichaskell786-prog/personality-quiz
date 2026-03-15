@@ -22,6 +22,7 @@ display:flex;
 justify-content:center;
 align-items:flex-start;
 padding-top:40px;
+overflow-x:hidden;
 }
 
 .pageTitle{
@@ -47,6 +48,7 @@ scroll-snap-type:x mandatory;
 gap:0;
 padding:0;
 align-items:start;
+touch-action: pan-x;
 }
   
 .swipeContainer::-webkit-scrollbar{
@@ -1315,7 +1317,7 @@ const activePage = pages[index];
 if(activePage){
 
 const headerHeight = 120; 
-card.style.height = activePage.offsetHeight + "px";
+card.style.minHeight = activePage.offsetHeight + "px";
 }
 
 }
