@@ -1328,7 +1328,7 @@ clearTimeout(snapTimeout);
 
 snapTimeout=setTimeout(()=>{
 
-const pageWidth = page.offsetWidth + 12;
+const pageWidth = container.clientWidth;
 const index = Math.round(container.scrollLeft/pageWidth);
 
 container.scrollTo({
