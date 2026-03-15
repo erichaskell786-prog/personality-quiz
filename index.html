@@ -39,7 +39,9 @@ letter-spacing:.5px;
 .title-blue{color:#52a8ff;}
 
 .swipeContainer{
-display:flex;
+display:grid;
+grid-auto-flow:column;
+grid-auto-columns:100%;
 
 overflow-x:auto;
 scroll-snap-type:x mandatory;
@@ -47,8 +49,9 @@ scroll-snap-type:x mandatory;
 gap:12px;
 padding:4px 8px;
 
-align-items:flex-start;
+align-items:start;
 }
+  
 .swipeContainer::-webkit-scrollbar{
 display:none;
 }
@@ -86,7 +89,6 @@ max-width:100%;
 word-wrap:break-word;
 transform:scale(.92);
 opacity:.65;
-flex:0 0 100%;
 }
 
 .page{
