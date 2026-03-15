@@ -1557,6 +1557,65 @@ return combos[primary+"-"+secondary] || "";
 
 let text = "";
 
+/* Behavior Balance */
+
+const dominanceGap = vals[primary] - (vals[secondary] || 0);
+
+let dominanceText = "";
+
+if(dominanceGap > 20){
+dominanceText = "Your primary personality influence is very pronounced. People may experience you as strongly driven by this behavioral style.";
+}
+else if(dominanceGap > 10){
+dominanceText = "Your primary personality influence tends to guide most of your decisions, though your secondary traits regularly appear.";
+}
+else{
+dominanceText = "Your top personality traits are closely balanced, which creates a flexible and adaptive behavioral style.";
+}
+
+text += "<h3>Behavior Balance</h3>";
+text += "<p>"+dominanceText+"</p>";
+
+/* Decision Orientation */
+
+const emotional = vals.Yellow + vals.Green;
+const analytical = vals.Red + vals.Blue;
+
+let thinkingStyle = "";
+
+if(emotional > analytical + 10){
+thinkingStyle = "Your decisions tend to prioritize emotional awareness and interpersonal dynamics.";
+}
+else if(analytical > emotional + 10){
+thinkingStyle = "Your decisions tend to prioritize logic, structure, and outcome analysis.";
+}
+else{
+thinkingStyle = "Your decision style appears balanced between emotional awareness and logical evaluation.";
+}
+
+text += "<h3>Decision Orientation</h3>";
+text += "<p>"+thinkingStyle+"</p>";
+
+/* Behavioral Pace */
+
+const energy = vals.Red + vals.Yellow;
+const stability = vals.Green + vals.Blue;
+
+let paceText = "";
+
+if(energy > stability + 10){
+paceText = "You tend to operate with high behavioral momentum and feel most comfortable in fast-moving environments.";
+}
+else if(stability > energy + 10){
+paceText = "You tend to operate with a steady and controlled rhythm, preferring predictability over rapid change.";
+}
+else{
+paceText = "You appear comfortable shifting between fast-paced environments and more stable situations.";
+}
+
+text += "<h3>Behavioral Pace</h3>";
+text += "<p>"+paceText+"</p>";
+  
 text += "<h3>Decision Pattern</h3>";
 text += "<p>"+behavior[primary].decision+"</p>";
 
