@@ -641,6 +641,10 @@ transform:rotate(0deg) scale(1);
   
 <script>
 
+window.onerror = function(msg, url, line){
+alert(msg + " at line " + line);
+}
+
 const adaptiveQuestions = {
 
 "Red-Blue":[
