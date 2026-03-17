@@ -551,6 +551,26 @@ auraDrift 40s linear infinite;
 .aura-green{background:#57ff9a;}
 .aura-blue{background:#52a8ff;}
 
+.resultCard{
+transition:height .35s ease, box-shadow .4s ease, transform .3s ease;
+}
+
+.resultCard.glow-red{
+box-shadow:0 25px 60px rgba(255,82,82,.35);
+}
+
+.resultCard.glow-yellow{
+box-shadow:0 25px 60px rgba(255,212,82,.35);
+}
+
+.resultCard.glow-green{
+box-shadow:0 25px 60px rgba(87,255,154,.35);
+}
+
+.resultCard.glow-blue{
+box-shadow:0 25px 60px rgba(82,168,255,.35);
+}
+
 @keyframes auraDrift{
 0%{transform:translate(-50%,-50%) rotate(0deg);}
 100%{transform:translate(-50%,-50%) rotate(360deg);}
@@ -1849,6 +1869,59 @@ const {types,vals}=state.result;
 
 const title=types.join(" / ");
 const subtitle=personalityTitle(types);
+
+function updateAuraGlow(){
+
+const container = document.querySelector(".swipeContainer");
+const card = document.querySelector(".resultCard");
+const pages = document.querySelectorAll(".page");
+
+if(!container || !card || !pages.length) return;
+
+const pageWidth = pages[0].offsetWidth;
+const index = Math.round(container.scrollLeft / pageWidth);
+
+const activePage = pages[index];
+
+if(!activePage) return;
+
+/* detect color page */
+const title = activePage.querySelector(".pageTitle");
+
+let color = null;
+
+if(title){
+if(title.classList.contains("title-red")) color = "red";
+if(title.classList.contains("title-yellow")) color = "yellow";
+if(title.classList.contains("title-green")) color = "green";
+if(title.classList.contains("title-blue")) color = "blue";
+}
+
+/* fallback = main result color */
+if(!color){
+const first = card.querySelector("h2");
+if(first){
+const text = first.innerText.toLowerCase();
+if(text.includes("red")) color = "red";
+if(text.includes("yellow")) color = "yellow";
+if(text.includes("green")) color = "green";
+if(text.includes("blue")) color = "blue";
+}
+}
+
+/* reset + apply */
+card.classList.remove(
+"glow-red",
+"glow-yellow",
+"glow-green",
+"glow-blue"
+);
+
+if(color){
+card.classList.add("glow-" + color);
+}
+
+}
 
 /* background */
 
