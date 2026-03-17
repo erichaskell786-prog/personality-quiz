@@ -54,6 +54,7 @@ min-height:0;
 overflow-x:auto;
 overflow-y:hidden;
 touch-action:pan-x;
+scroll-behavior:smooth;
 }
   
 .swipeContainer::-webkit-scrollbar{
@@ -66,32 +67,33 @@ scroll-snap-stop:always;
 flex: 0 0 auto;
 flex-shrink:0;
 min-width:0;
-  
 display:flex;
 flex-direction:column;
 justify-content:flex-start;
-  
 gap:14px;
 padding:28px 26px 32px 26px;
 border-radius:20px;
-
 background:#1f2033;
-
 box-shadow:0 12px 30px rgba(0,0,0,.35);
 transition:transform .35s ease, opacity .35s ease;
 animation:cardFade .4s ease;
-
 height:auto;
 min-height:unset;
 align-self:flex-start;
 text-align:left;
-
 box-sizing:border-box;
 overflow-wrap:break-word;
 width:100%;
 max-width:100%;
-
 word-wrap:break-word;
+filter:blur(.6px);
+/* animation core */
+transform:scale(.92);
+opacity:.55;
+transition:
+transform .4s cubic-bezier(.22,.8,.2,1),
+opacity .35s ease,
+box-shadow .35s ease;
 }
 
 .page{
@@ -120,6 +122,15 @@ transition:opacity .3s ease, filter .3s ease;
 .page.active{
 opacity:1;
 filter:blur(0);
+transform:scale(1);
+opacity:1;
+box-shadow:0 18px 45px rgba(0,0,0,.5);
+transform:scale(1) translateY(-4px);
+filter:blur(0);
+}
+
+.page:not(.active){
+transform:scale(.92) translateY(6px);
 }
 
 .page button{
