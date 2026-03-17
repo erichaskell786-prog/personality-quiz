@@ -1335,24 +1335,24 @@ let snapTimeout;
   
 function magneticSnap(){
 
-const container=document.querySelector(".swipeContainer");
+const container = document.querySelector(".swipeContainer");
 const page = container.querySelector(".page");
 
 if(!page) return;
 
 clearTimeout(snapTimeout);
 
-snapTimeout=setTimeout(()=>{
+snapTimeout = setTimeout(()=>{
 
-const pageWidth = container.querySelector(".page").offsetWidth;
+const pageWidth = page.offsetWidth;
 const index = Math.round(container.scrollLeft / pageWidth);
-  
+
 container.scrollTo({
-left:index*pageWidth,
+left:index * pageWidth,
 behavior:"smooth"
 });
 
-},80);
+},100);
 
 }
 
