@@ -1,4 +1,4 @@
-const CACHE_NAME = "personality-quiz-v4"; // ← change version number when updating app
+const CACHE_NAME = "personality-quiz-v5"; // ← change version number when updating app
 
 const FILES_TO_CACHE = [
   "./",
